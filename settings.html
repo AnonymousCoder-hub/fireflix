@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0Q1VZ5TT2T"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-0Q1VZ5TT2T');
+    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles7.css" />
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="index.html">Home</a>
+    </nav>
+  </header>
+  <main>
+    <h1 class="category-title" id="settings-title"><span class="vertical-line"></span>Settings</h1>
+    <div class="settings-container">
+      <div class="setting-item">
+        <label for="remember-source">Remember the source used</label>
+        <label class="switch">
+          <input type="checkbox" id="remember-source">
+          <span class="slider round"></span>
+        </label>
+      </div>
+      <div class="setting-item">
+        <label for="privacy-policy">Privacy Policy</label>
+        <button class="small-button" id="privacy-policy" onclick="window.location.href='privacy.html'">Go to Privacy Policy</button>
+      </div>
+      <div class="setting-item">
+        <label for="about-us">About Us</label>
+        <button class="small-button" id="about-us" onclick="window.location.href='about.html'">Go to About Us</button>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <p>&copy; 2024 FireFlix. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Get the current state from localStorage
+    const rememberSourceCheckbox = document.getElementById("remember-source");
+    const savedSource = localStorage.getItem("rememberSource");
+
+    if (savedSource === "true") {
+      rememberSourceCheckbox.checked = true;
+    }
+
+    rememberSourceCheckbox.addEventListener("change", () => {
+      localStorage.setItem("rememberSource", rememberSourceCheckbox.checked);
+    });
+  </script>
+</body>
+</html>

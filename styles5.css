@@ -1,0 +1,145 @@
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+}
+
+header {
+    background-color: #1c1c1c;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #ff5722;
+}
+
+.banner {
+    position: relative;
+    width: 100%;
+    height: 50vh;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    text-align: center;
+    flex-direction: column; /* Align items vertically */
+}
+
+.banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.actor-details {
+    padding: 2rem;
+    text-align: center;
+    margin-top: 2rem; /* Add margin to push down the content */
+    background-color: #282828;
+    border-radius: 10px;
+    color: #ffffff;
+}
+
+.actor-details h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.actor-info {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    text-align: left; /* Align text to the left */
+}
+
+.actor-info p {
+    margin: 0.5rem 0;
+}
+
+.content-section {
+    padding: 2rem;
+    background-color: #1c1c1c; /* Black layout background */
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+.content-section h2 {
+    font-size: 1.6rem; /* Smaller font size for heading */
+    color: #ff5722; /* Orange color for heading */
+    margin-bottom: 1rem;
+    padding-left: 1rem; /* Shift heading slightly to the right */
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center; /* Center align the banners */
+}
+
+.grid div {
+    flex: 0 0 calc(33.33% - 1rem); /* Default to 3 banners per row */
+    background-color: #282828;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+.grid div:hover {
+    transform: scale(1.05);
+}
+
+.grid img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+}
+
+/* Styles for the small-banner */
+.small-banner {
+    position: absolute;
+    bottom: -80px; /* Move the small banner further down */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8); /* Adjust background color if needed */
+    width: 200px; /* Adjust the width as needed to make it rectangular */
+    height: 300px; /* Adjust the height as needed to make it vertical */
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5); /* Shadow effect */
+    background-size: cover; /* Ensure the background image covers the entire banner */
+    background-position: center; /* Center the background image */
+}
+
+/* Responsive design for larger screens */
+@media (min-width: 768px) {
+    .grid div {
+        flex: 0 0 calc(25% - 1rem); /* Change to 4 banners per row on larger screens */
+    }
+}

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+
+      <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0Q1VZ5TT2T"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-0Q1VZ5TT2T');
+    </script>
+  
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FireFlix</title>
+  <link rel="icon" type="image/x-icon" href="logo.ico">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  
+
+
+  <header>
+    <nav>
+      <h1>FireFlix</h1>
+      <div class="search-bar-icon">
+        <div class="menu-icon" id="menu-icon">
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+        <div class="search-container">
+          <input type="text" id="search-bar" placeholder="Search..." aria-label="Search" />
+          <button id="search-button">Search</button>
+        </div>
+      </div>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#movies">Movies</a></li>
+        <li><a href="#tvshows">TV Shows</a></li>
+        <li><a href="filter.html">Filter</a></li>
+        <li><a href="settings.html">Settings</a></li> <!-- New Settings Button -->
+      </ul>
+      <div id="search-results"></div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <!-- Featured Content Section -->
+    <section id="featured-content" class="featured-content">
+      <div class="carousel" id="carousel">
+        <!-- Carousel items will be inserted here dynamically -->
+      </div>
+      <div class="carousel-nav">
+        <button id="prevBtn">&#10094;</button>
+        <button id="nextBtn">&#10095;</button>
+      </div>
+    </section>
+    <!-- End Featured Content Section -->
+
+    <!-- Continue Watching Section -->
+    <section class="content-grid" id="continue-watching" aria-labelledby="continue-watching-title">
+      <h2 class="category-title" id="continue-watching-title">
+        <span class="vertical-line"></span>Continue Watching
+      </h2>
+      <div class="grid" id="continue-watching-grid">
+        <!-- Continue Watching Thumbnails will be inserted here dynamically -->
+      </div>
+    </section>
+
+    <section class="content-grid" id="movies" aria-labelledby="movies-title">
+      <h2 class="category-title" id="movies-title">
+        <span class="vertical-line"></span>Trending Movies
+      </h2>
+      <div class="grid">
+        <!-- Movie Thumbnails will be inserted here dynamically -->
+      </div>
+    </section>
+
+    <section class="content-grid" id="tvshows" aria-labelledby="tvshows-title">
+      <h2 class="category-title" id="tvshows-title">
+        <span class="vertical-line"></span>Top Rated TV Shows
+      </h2>
+      <div class="grid">
+        <!-- TV Show Thumbnails will be inserted here dynamically -->
+      </div>
+    </section>
+
+    <!-- New Sections Below -->
+    <section class="content-grid" id="on-the-air" aria-labelledby="on-the-air-title">
+      <h2 class="category-title" id="on-the-air-title">
+        <span class="vertical-line"></span>On The Air
+      </h2>
+      <div class="grid">
+        <!-- On The Air Thumbnails will be inserted here dynamically -->
+      </div>
+    </section>
+
+    <section class="content-grid" id="airing-today" aria-labelledby="airing-today-title">
+      <h2 class="category-title" id="airing-today-title">
+        <span class="vertical-line"></span>Airing Today
+      </h2>
+      <div class="grid">
+        <!-- Airing Today Thumbnails will be inserted here dynamically -->
+      </div>
+    </section>
+
+    <section class="content-grid" id="upcoming-movies" aria-labelledby="upcoming-movies-title">
+      <h2 class="category-title" id="upcoming-movies-title">
+        <span class="vertical-line"></span>Upcoming Movies
+      </h2>
+      <div class="grid">
+        <!-- Upcoming Movies Thumbnails will be inserted here dynamically -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Banner Section -->
+  <div class="banner">
+    <p>Download the fireflix webapp for Android TV, firestick, and devices supporting apk files 
+      <a href="https://github.com/AnonymousCoder-hub/FireFlix-Application-/raw/refs/heads/main/FireFlix_v2.2.apk">Fireflix App</a>.
+    </p>
+  </div>
+
+  <!-- Updated Footer Links -->
+  <footer>
+    <p>&copy; 2024 FireFlix. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#">Home</a> | 
+      <a href="#movies">Movies</a> | 
+      <a href="#tvshows">TV Shows</a> | 
+      <a href="https://discord.gg/aMEGepsr5A">Discord</a> | <!-- Discord link added -->
+      <a href="#" id="dmca-button">DMCA</a> <!-- DMCA button added -->
+    </div>
+  </footer>
+    
+  <!-- DMCA Notice Section -->
+  <div class="dmca-notice" id="dmca-notice">
+    <p>This site does not host any content nor has any server for hosting content. All the content here is hosted on third-party sites which have no ties or connections to this site. Any action must be taken on those sites, and this site does not indulge in any hosting of content. The available streams are third-party sources available online and they are simply shown to users.</p>
+  </div>
+
+  <script>
+    document.getElementById('menu-icon').addEventListener('click', function () {
+      document.getElementById('nav-links').classList.toggle('active');
+    });
+
+    // Slide transition for DMCA notice
+    document.getElementById('dmca-button').addEventListener('click', function (event) {
+      event.preventDefault(); // Prevent the default anchor behavior
+      const dmcaNotice = document.getElementById('dmca-notice');
+      dmcaNotice.classList.toggle('visible');
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); // Scroll to the bottom
+    });
+  </script>
+  <script src="scripts.js"></script>
+</body>
+</html>

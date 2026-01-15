@@ -1,0 +1,446 @@
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+}
+
+header {
+    background-color: #1c1c1c;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #ff5722;
+}
+
+.banner {
+    position: relative;
+    width: 100%;
+    height: 50vh;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    text-align: center;
+    flex-direction: column;
+    transition: height 0.5s ease; 
+}
+
+.banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.movie-details {
+    padding: 2rem;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.rating img {
+    width: 50px;
+    height: auto;
+    margin-right: 1rem;
+}
+
+.rating span {
+    font-size: 1.5rem;
+    color: #ff5722;
+}
+
+.genres {
+    display: flex;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+}
+
+.genre {
+    background-color: #000000;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1rem;
+    white-space: nowrap;
+    border: 1px solid #ffffff;
+}
+
+#duration {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: #ffffff; /* Same color as other text */
+    gap: 0.5rem; /* Space around the separator */
+    margin-left: 0.5rem;
+}
+
+#clock-icon {
+    width: 16px; /* Adjust the width to a smaller size */
+    height: 16px; /* Adjust the height to match the width */
+    vertical-align: middle; /* Align the icon with the text */
+    margin-right: 4px; /* Add some space between the icon and the text */
+}
+
+#release-year {
+    background-color: #000000;
+    padding: 0.2rem 0.5rem;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1rem;
+    white-space: nowrap;
+    border: 1px solid #ffffff; /* Thin border for release year */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; /* Center align the text within the block */
+}
+
+#duration span {
+    margin-left: 0.2rem;
+    font-size: 1rem;
+}
+
+.movie-details p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-left: 1rem;
+}
+
+.play-button, .trailer-button {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.play-button {
+    background-color: red;
+    color: white;
+}
+
+.play-button:hover {
+    background-color: darkred;
+}
+
+.trailer-button {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+.trailer-button:hover {
+    background-color: white;
+    color: black;
+}
+
+.small-banner {
+    position: absolute;
+    bottom: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 200px;
+    height: 300px;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.5s ease;
+}
+
+.small-banner-down {
+    transform: translateX(-50%) translateY(50vh);
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 8px;
+}
+
+.content-section {
+    padding: 2rem;
+}
+
+.content-section h2 {
+    font-size: 1.5rem; /* Match the size used on the homepage */
+    color: #ff5722;
+    margin-bottom: 1rem;
+}
+
+.actors-carousel-wrapper {
+    position: relative;
+}
+
+.actors-carousel {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.actors-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.actors-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1rem;
+}
+
+.actor-item {
+    text-align: center;
+    min-width: 100px;
+    cursor: pointer;
+}
+
+.actor-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+}
+
+.actor-item p {
+    cursor: pointer;
+}
+
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.carousel-control.left {
+    left: 0;
+}
+
+.carousel-control.right {
+    right: 0;
+}
+
+.carousel-control:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+}
+
+.grid div {
+    flex: 0 0 calc(33.33% - 1rem);
+    background-color: #282828;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+.grid div:hover {
+    transform: scale(1.05);
+}
+
+.grid img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+}
+
+@media (min-width: 769px) {
+    .grid div {
+        flex: 0 0 calc(25% - 1rem);
+    }
+
+    .movie-details {
+        text-align: left;
+    }
+
+    .buttons {
+        justify-content: flex-start;
+    }
+
+    .genres-duration-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .genres {
+        display: flex;
+        justify-content: flex-start;
+        margin-right: 1rem;
+    }
+
+    #duration {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem; /* Add space around the separator */
+    }
+
+    .genre, #release-year {
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .genres {
+        justify-content: center;
+    }
+
+    #duration {
+        display: block;
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    #clock-icon {
+        display: block;
+        margin: 0 auto;
+    }
+}
+
+/* Styles for Collection section */
+#collection .grid div {
+    flex: 0 0 calc(25% - 1rem); /* Set each item to take up 25% of the container on PC screens */
+    background-color: #282828;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    /* Styles for smaller screens */
+    #collection .grid div {
+        flex: 0 0 calc(50% - 1rem); /* Set each item to take up 50% of the container on smaller screens */
+    }
+
+    .genres {
+        justify-content: center;
+    }
+
+    #duration {
+        display: block;
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    #clock-icon {
+        display: block;
+        margin: 0 auto;
+    }
+}
+
+.grid img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+}
+
+@media (min-width: 769px) {
+    .grid div {
+        flex: 0 0 calc(25% - 1rem); /* Adjusting size for PC screens */
+    }
+
+    .movie-details {
+        text-align: left;
+    }
+
+    .buttons {
+        justify-content: flex-start;
+    }
+
+    .genres-duration-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .genres {
+        display: flex;
+        justify-content: flex-start;
+        margin-right: 1rem;
+    }
+
+    #duration {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem; /* Add space around the separator */
+    }
+
+    .genre, #release-year {
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* Add styles for the category titles */
+.category-title {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem; /* Match the size used on the homepage */
+    margin-bottom: 1rem;
+    color: #ff5722;
+    height: 2rem;
+}
+
+.category-title .vertical-line {
+    width: 5px;
+    height: 2rem;
+    background: #ff5722;
+    margin-right: 10px;
+} 

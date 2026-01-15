@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0Q1VZ5TT2T"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-0Q1VZ5TT2T');
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Watch movies and TV shows on FireFlix." />
+    <meta property="og:title" content="FireFlix - Watch Movies and TV Shows" />
+    <meta property="og:description" content="Stream your favorite movies and TV shows." />
+    <meta property="og:image" content="logo.png" />
+    <meta property="og:url" content="https://fireflixhd1.netlify.app" />
+    <title>Player</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles4.css" />
+ 
+  </head>
+  <body>
+    
+
+    <header>
+      <nav>
+        <a href="index.html">Home</a>
+      </nav>
+    </header>
+    <main>
+      <div class="logo-container">
+        <img id="movie-logo" src="" alt="Movie Logo" class="hidden" />
+      </div>
+      <div class="player-container">
+        <iframe
+          id="player-frame"
+          src=""
+          frameborder="0"
+          allowfullscreen
+          mozallowfullscreen
+          webkitallowfullscreen
+          scrolling="no"
+          title="Movie Player"
+        ></iframe>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn" id="selected-source">EZsource</button>
+        <div class="dropdown-content" id="dropdown-content">   
+                     
+          <a href="#" data-source="EZsource">EZsource</a>      
+          <a href="#" data-source="Vidsrc1">Vidsrc1</a>
+          <a href="#" data-source="AutoEmbed">AutoEmbed</a>
+        </div>
+      </div>
+      <p id="movie-description"></p>
+
+      <!-- Episodes and Seasons Section -->
+      <section class="content-section" id="episodes">
+        <h2 class="category-title" id="episodes-title">
+          <span class="vertical-line"></span>Episodes
+        </h2>
+        <div id="episode-list" class="episode-list"></div>
+        <div id="season-list" class="season-list"></div>
+      </section>
+
+      <section class="content-section" id="similar">
+        <h2 class="category-title" id="similar-title">
+          <span class="vertical-line"></span>Similar Movies/TV Shows
+        </h2>
+        <div class="grid" id="similar-grid"></div>
+      </section>
+
+      <section class="content-section" id="on-the-air">
+        <h2 class="category-title" id="on-the-air-title">
+          <span class="vertical-line"></span>On The Air
+        </h2>
+        <div class="grid" id="on-the-air-grid"></div>
+      </section>
+
+      <section class="content-section" id="recommendations">
+        <h2 class="category-title" id="recommendations-title">
+          <span class="vertical-line"></span>Recommendations
+        </h2>
+        <div class="grid" id="recommendations-grid"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 FireFlix. All rights reserved.</p>
+    </footer>
+
+    <script>
+      const apiKey = "7967738a03ec215c7d6d675faba9c973";
+      const urlParams = new URLSearchParams(window.location.search);
+      const imdbId = urlParams.get("imdb_id");
+      let mediaType;
+      let tmdbId;
+      const playerFrame = document.getElementById("player-frame");
+      const dropdownContent = document.getElementById("dropdown-content");
+      const selectedSource = document.getElementById("selected-source");
+      const movieLogo = document.getElementById("movie-logo");
+      const movieDescription = document.getElementById("movie-description");
+      let currentSource = "Dream";
+      let currentSeason = 1;
+      let currentEpisode = 1;
+
+      // Remembering the last used source
+      const rememberSourceSetting = localStorage.getItem("rememberSource");
+      if (rememberSourceSetting === "true") {
+        const rememberedSource = localStorage.getItem("lastUsedSource");
+        if (rememberedSource) {
+          currentSource = rememberedSource;
+          selectedSource.textContent = currentSource;
+        }
+      }
+
+      console.log("Initial imdbId:", imdbId);
+
+      async function fetchMovieDetails(imdbId) {
+        try {
+          const response = await fetch(
+            `https://api.themoviedb.org/3/find/${imdbId}?api_key=${apiKey}&external_source=imdb_id`
+          );
+          const data = await response.json();
+          if (data.movie_results.length || data.tv_results.length) {
+            const movie = data.movie_results[0] || data.tv_results[0];
+            mediaType = movie.media_type;
+            tmdbId = movie.id;
+            displayMovieDetails(movie);
+            await fetchAdditionalData(tmdbId, mediaType);
+            if (mediaType === "tv") {
+              const lastPlayed = getLastPlayed(tmdbId);
+              currentSeason = lastPlayed.season;
+              currentEpisode = lastPlayed.episode;
+              await fetchSeasons(tmdbId);
+              await fetchEpisodes(tmdbId, currentSeason); // Fetch and display episodes for the stored season
+            }
+          } else {
+            console.error("No movie or TV show found.");
+          }
+        } catch (error) {
+          console.error("Error fetching movie details: ", error);
+        }
+      }
+
+      function displayMovieDetails(movie) {
+        // Update this line to include the last played episode and season
+        const lastPlayed = getLastPlayed(tmdbId);
+        updatePlayerFrame(tmdbId, lastPlayed.season, lastPlayed.episode);
+        movieDescription.textContent = movie.overview;
+
+        // Fetch the banner image
+        const bannerUrl = `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
+        document.documentElement.style.setProperty('--banner-url', `url(${bannerUrl})`);
+
+        // Fetch the logo image (correct API usage)
+        fetchLogo(movie.id, mediaType);
+      }
+
+      async function fetchLogo(movieId, mediaType) {
+        try {
+          const response = await fetch(
+            `https://api.themoviedb.org/3/${mediaType}/${movieId}/images?api_key=${apiKey}`
+          );
+          const data = await response.json();
+          
+          // Filter logos to only get English logos
+          const englishLogos = data.logos.filter(logo => logo.iso_639_1 === 'en');
+          
+          const logo = englishLogos.length > 0 ? englishLogos[0].file_path : '';
+          
+          if (logo) {
+            const logoUrl = `https://image.tmdb.org/t/p/original${logo}`;
+            movieLogo.src = logoUrl;
+            movieLogo.classList.remove("hidden");
+          } else {
+            console.error("No English logo found.");
+          }
+        } catch (error) {
+          console.error("Error fetching logo: ", error);
+        }
+      }
+
+      async function fetchAdditionalData(movieId, mediaType) {
+        await fetchSimilar(movieId, mediaType);
+        await fetchOnTheAir();
+        await fetchRecommendations(movieId, mediaType);
+      }
+
+      async function fetchSimilar(movieId, mediaType) {
+        try {
+          const response = await fetch(
+            `https://api.themoviedb.org/3/${mediaType}/${movieId}/similar?api_key=${apiKey}`
+          );
+          const data = await response.json();
+          displayAdditionalContent(data.results, "similar-grid");
+        } catch (error) {
+          console.error("Error fetching similar content: ", error);
+        }
+      }
+
+      async function fetchOnTheAir() {
+        try {
+          const response = await fetch(
+            `https://api.themoviedb.org/3/tv/on_the_air?api_key=${apiKey}`
+          );
+          const data = await response.json();
+          displayAdditionalContent(data.results, "on-the-air-grid");
+        } catch (error) {
+          console.error("Error fetching on-the-air content: ", error);
+        }
+      }
+
+      async function fetchRecommendations(movieId, mediaType) {
+        try {
+          const response = await fetch(
+            `https://api.themoviedb.org/3/${mediaType}/${movieId}/recommendations?api_key=${apiKey}`
+          );
+          const data = await response.json();
+          displayAdditionalContent(data.results, "recommendations-grid");
+        } catch (error) {
+          console.error("Error fetching recommendations: ", error);
+        }
+      }
+
+      function displayAdditionalContent(items, containerId) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = "";
+        items.forEach((item) => {
+          if (!item.poster_path && !item.backdrop_path) return;
+
+          const div = document.createElement("div");
+          const img = document.createElement("img");
+          img.src = `https://image.tmdb.org/t/p/w500${item.poster_path || item.backdrop_path}`;
+          img.alt = item.title || item.name;
+          div.appendChild(img);
+
+          div.addEventListener("click", async () => {
+            const imdbId = await fetchIMDbID(
+              item.id,
+              item.media_type || (item.first_air_date ? "tv" : "movie")
+            );
+            window.location.href = `movie.html?imdb_id=${imdbId}&type=${item.media_type || (item.first_air_date ? "tv" : "movie")}`;
+          });
+
+          container.appendChild(div);
+        });
+      }
+
+      async function fetchIMDbID(tmdbId, type) {
+        try {
+          const response = await fetch(
+            `https://api.themoviedb.org/3/${type}/${tmdbId}/external_ids?api_key=${apiKey}`
+          );
+          const data = await response.json();
+          return data.imdb_id;
+        } catch (error) {
+          console.error(
+            `Error fetching IMDb ID for ${type} with TMDB ID ${tmdbId}: `,
+            error
+          );
+        }
+      }
+
+      async function fetchSeasons(tvId) {
+        try {
+          const response = await fetch(
+            `https://api.themoviedb.org/3/tv/${tvId}?api_key=${apiKey}`
+          );
+          const data = await response.json();
+          displaySeasons(data.seasons, tvId);
+        } catch (error) {
+          console.error("Error fetching seasons: ", error);
+        }
+      }
+
+      function displaySeasons(seasons, tvId) {
+        const seasonList = document.getElementById("season-list");
+        seasonList.innerHTML = "";
+        seasons.forEach((season) => {
+          const button = document.createElement("button");
+          button.textContent = `Season ${season.season_number}`;
+          button.classList.add("season-item");
+          button.addEventListener("click", () => {
+            currentSeason = season.season_number;
+            fetchEpisodes(tvId, season.season_number);
+          });
+          seasonList.appendChild(button);
+        });
+      }
+
+      async function fetchEpisodes(tvId, seasonNumber) {
+        try {
+          const response = await fetch(
+            `https://api.themoviedb.org/3/tv/${tvId}/season/${seasonNumber}?api_key=${apiKey}`
+          );
+          const data = await response.json();
+          displayEpisodes(data.episodes);
+        } catch (error) {
+          console.error("Error fetching episodes: ", error);
+        }
+      }
+
+      function displayEpisodes(episodes) {
+        const episodeList = document.getElementById("episode-list");
+        episodeList.innerHTML = "";
+        episodes.forEach((episode) => {
+          const div = document.createElement("div");
+          div.classList.add("episode-item");
+          const img = document.createElement("img");
+          img.src = `https://image.tmdb.org/t/p/w500${episode.still_path}`;
+          img.alt = episode.name;
+          const title = document.createElement("p");
+          title.textContent = episode.name;
+          div.appendChild(img);
+          div.appendChild(title);
+
+          // Add click event to set active class and store last played episode
+          div.addEventListener("click", () => {
+            document.querySelectorAll('.episode-item').forEach(item => item.classList.remove('active'));
+            div.classList.add('active');
+            currentEpisode = episode.episode_number;
+            storeLastPlayed(tmdbId, currentSeason, currentEpisode);
+            updatePlayerFrame(tmdbId, currentSeason, currentEpisode);
+          });
+
+          episodeList.appendChild(div);
+
+          // Check if this episode is the last played episode
+          if (episode.episode_number === currentEpisode) {
+            div.classList.add('active');
+          }
+        });
+
+        // Automatically select the last played episode
+        const lastPlayed = getLastPlayed(tvId);
+        currentSeason = lastPlayed.season;
+        currentEpisode = lastPlayed.episode;
+        updatePlayerFrame(tmdbId, currentSeason, currentEpisode);
+      }
+
+      function updatePlayerFrame(tmdbId, season, episode) {
+        let srcUrl = "";
+        let isSandbox = false;
+
+        if (mediaType === "movie") {
+            switch (currentSource) {
+                case "EZsource":
+                    srcUrl = `https://lethe399key.com/play/${imdbId}`;
+                    break;
+                case "AutoEmbed":
+                    srcUrl = `https://player.autoembed.cc/embed/movie/${imdbId}?server=15`;
+                    break;
+                case "Vidsrc1":
+                    srcUrl = `https://vidsrc.cc/v2/embed/movie/${imdbId}`;
+                    break;
+                default:
+                    srcUrl = `https://lethe399key.com/play/${imdbId}`;
+                    isSandbox = true;
+                    break;
+            }
+        } else if (mediaType === "tv") {
+            switch (currentSource) {
+                case "EZsource":
+                    srcUrl = `https://lethe399key.com/play/${imdbId}`;
+                    break;
+                case "AutoEmbed":
+                    srcUrl = `https://player.autoembed.cc/embed/tv/${imdbId}/${season}/${episode}?server=15`;
+                    break;
+                case "Vidsrc1":
+                    srcUrl = `https://vidsrc.cc/v2/embed/tv/${imdbId}/${season}/${episode}`;
+                    isSandbox = true;
+                    break;
+                default:
+                    srcUrl = `https://lethe399key.com/play/${imdbId}`;
+                    isSandbox = true;
+                    break;
+            }
+        }
+
+        console.log("Generated URL:", srcUrl); // Debug log
+        playerFrame.src = srcUrl;
+
+        // Apply sandbox attribute if isSandbox is true
+        if (isSandbox) {
+            playerFrame.setAttribute("sandbox", "allow-scripts allow-same-origin allow-presentation");
+        } else {
+            playerFrame.removeAttribute("sandbox");
+        }
+
+        // Save current source if the setting is enabled
+        if (rememberSourceSetting === "true") {
+            localStorage.setItem("lastUsedSource", currentSource);
+        }
+      }
+
+      // Function to store last played episode and season in localStorage
+      function storeLastPlayed(tvId, season, episode) {
+        localStorage.setItem(`lastPlayedSeason_${tvId}`, season);
+        localStorage.setItem(`lastPlayedEpisode_${tvId}`, episode);
+      }
+
+      // Function to retrieve last played episode and season from localStorage
+      function getLastPlayed(tvId) {
+        const lastPlayedSeason = localStorage.getItem(`lastPlayedSeason_${tvId}`);
+        const lastPlayedEpisode = localStorage.getItem(`lastPlayedEpisode_${tvId}`);
+        return {
+          season: lastPlayedSeason ? parseInt(lastPlayedSeason) : 1,
+          episode: lastPlayedEpisode ? parseInt(lastPlayedEpisode) : 1
+        };
+      }
+
+      // Event listener for source selection
+      dropdownContent.addEventListener("click", (e) => {
+        if (e.target.tagName === "A") {
+          currentSource = e.target.dataset.source;
+          selectedSource.textContent = e.target.textContent;
+          console.log("Selected Source:", currentSource);
+          updatePlayerFrame(tmdbId, currentSeason, currentEpisode);
+        }
+      });
+
+      // Check URL parameters to determine if the selected item is a movie or TV show
+      if (imdbId) {
+        fetchMovieDetails(imdbId).then(() => {
+          if (mediaType === "movie") {
+            document.getElementById("episodes").style.display = "none";
+          } else if (mediaType === "tv") {
+            document.getElementById("episodes").style.display = "block";
+            const lastPlayed = getLastPlayed(tmdbId);
+            currentSeason = lastPlayed.season;
+            currentEpisode = lastPlayed.episode;
+            fetchEpisodes(tmdbId, currentSeason); // Fetch and display episodes for the stored season
+          }
+          // Ensure the player frame is updated with the correct last played episode
+          updatePlayerFrame(tmdbId, currentSeason, currentEpisode);
+        });
+      }
+
+      // Function to apply blocking logic to EZsource
+      function applyIframeBlocking(iframeDoc) {
+        iframeDoc.addEventListener("click", function(event) {
+          var target = event.target;
+
+          if (target.tagName === "A" && target.target === "_blank") {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+          }
+        });
+
+        var originalWindowOpen = iframeDoc.defaultView.open;
+        iframeDoc.defaultView.open = function(url, name, features) {
+          var newWindow = originalWindowOpen.call(this, url, name, features);
+          if (newWindow) {
+            newWindow.close();
+          }
+          return null;
+        };
+
+        iframeDoc.body.addEventListener('click', function(e) {
+          if (e.target.tagName === 'A' && e.target.target === '_blank') {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+          }
+        }, true);
+      }
+
+      // Add event listener for iframe load event
+      playerFrame.addEventListener("load", function() {
+        var iframeDoc = this.contentDocument || this.contentWindow.document;
+
+        if (currentSource === "EZsource") {
+          applyIframeBlocking(iframeDoc);
+        }
+      });
+
+    </script>
+  </body>
+</html>

@@ -1,32 +1,54 @@
+// FireFlix - Main JavaScript File
+// ============================================
+
 const apiKey = '7967738a03ec215c7d6d675faba9c973';
-const movieGrid = document.querySelector('#movies .grid');
-const tvShowGrid = document.querySelector('#tvshows .grid');
-const onTheAirGrid = document.querySelector('#on-the-air .grid');
-const airingTodayGrid = document.querySelector('#airing-today .grid');
-const upcomingMoviesGrid = document.querySelector('#upcoming-movies .grid');
-const continueWatchingGrid = document.querySelector('#continue-watching-grid'); // Added for continue watching section
+
+// DOM Elements - Updated selectors
+const movieGrid = document.getElementById('movies-grid');
+const tvShowGrid = document.getElementById('tvshows-grid');
+const onTheAirGrid = document.getElementById('on-the-air-grid');
+const airingTodayGrid = document.getElementById('airing-today-grid');
+const upcomingMoviesGrid = document.getElementById('upcoming-movies-grid');
+const continueWatchingGrid = document.getElementById('continue-watching-grid');
 const searchBar = document.getElementById('search-bar');
 const searchButton = document.getElementById('search-button');
 const searchResults = document.getElementById('search-results');
-const seasonList = document.getElementById('season-list');
-const episodeList = document.getElementById('episode-list');
-const episodeSection = document.querySelector('#episodes');
-let currentSeason = 1;
-let currentEpisode = 1;
+
+// Featured Content
 const featuredContent = [];
 let currentIndex = 0;
+let carouselInterval = null;
 
-document.getElementById('menu-icon').addEventListener('click', () => {
-    const navLinks = document.querySelector('.nav-links');
-    navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+// Mobile Menu Toggle
+const menuIcon = document.getElementById('menu-icon');
+const mobileNav = document.getElementById('mobile-nav');
+
+if (menuIcon) {
+    menuIcon.addEventListener('click', () => {
+        mobileNav.classList.toggle('active');
+        menuIcon.classList.toggle('active');
+    });
+}
+
+// Close mobile nav when clicking outside
+document.addEventListener('click', (e) => {
+    if (mobileNav && !mobileNav.contains(e.target) && !menuIcon.contains(e.target)) {
+        mobileNav.classList.remove('active');
+        menuIcon.classList.remove('active');
+    }
 });
+
+// ============================================
+// DATA FETCHING FUNCTIONS
+// ============================================
 
 async function fetchMovies() {
     try {
         const response = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`);
         const data = await response.json();
-        if (data.results.length) displayContent(data.results, movieGrid, 'movie');
-        else console.error("No trending movies available.");
+        if (data.results && data.results.length) {
+            displayContent(data.results, movieGrid, 'movie');
+        }
     } catch (error) {
         console.error("Error fetching trending movies: ", error);
     }
@@ -36,8 +58,9 @@ async function fetchTVShows() {
     try {
         const response = await fetch(`https://api.themoviedb.org/3/tv/top_rated?api_key=${apiKey}`);
         const data = await response.json();
-        if (data.results.length) displayContent(data.results, tvShowGrid, 'tv');
-        else console.error("No top-rated TV shows available.");
+        if (data.results && data.results.length) {
+            displayContent(data.results, tvShowGrid, 'tv');
+        }
     } catch (error) {
         console.error("Error fetching top-rated TV shows: ", error);
     }
@@ -47,8 +70,9 @@ async function fetchOnTheAir() {
     try {
         const response = await fetch(`https://api.themoviedb.org/3/tv/on_the_air?api_key=${apiKey}`);
         const data = await response.json();
-        if (data.results.length) displayContent(data.results, onTheAirGrid, 'tv');
-        else console.error("No on the air TV shows available.");
+        if (data.results && data.results.length) {
+            displayContent(data.results, onTheAirGrid, 'tv');
+        }
     } catch (error) {
         console.error("Error fetching on the air TV shows: ", error);
     }
@@ -58,8 +82,9 @@ async function fetchAiringToday() {
     try {
         const response = await fetch(`https://api.themoviedb.org/3/tv/airing_today?api_key=${apiKey}`);
         const data = await response.json();
-        if (data.results.length) displayContent(data.results, airingTodayGrid, 'tv');
-        else console.error("No TV shows airing today available.");
+        if (data.results && data.results.length) {
+            displayContent(data.results, airingTodayGrid, 'tv');
+        }
     } catch (error) {
         console.error("Error fetching TV shows airing today: ", error);
     }
@@ -69,28 +94,44 @@ async function fetchUpcomingMovies() {
     try {
         const response = await fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}`);
         const data = await response.json();
-        if (data.results.length) displayContent(data.results, upcomingMoviesGrid, 'movie');
-        else console.error("No upcoming movies available.");
+        if (data.results && data.results.length) {
+            displayContent(data.results, upcomingMoviesGrid, 'movie');
+        }
     } catch (error) {
         console.error("Error fetching upcoming movies: ", error);
     }
 }
 
+// ============================================
+// CONTENT DISPLAY FUNCTIONS
+// ============================================
+
 function displayContent(items, container, type) {
+    if (!container) return;
+
     container.innerHTML = '';
     items.forEach(item => {
         const div = document.createElement('div');
+        div.className = 'grid-item';
+
         const img = document.createElement('img');
-        img.src = `https://image.tmdb.org/t/p/w500${item.poster_path || item.backdrop_path}`;
+        img.src = `https://image.tmdb.org/t/p/w500${item.poster_path}`;
         img.alt = item.title || item.name;
+        img.loading = 'lazy';
+
+        // Add rating overlay
+        const ratingOverlay = document.createElement('div');
+        ratingOverlay.className = 'rating-overlay';
+        ratingOverlay.innerHTML = `<span>★</span> ${item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}`;
+
         div.appendChild(img);
+        div.appendChild(ratingOverlay);
 
         div.addEventListener('click', async () => {
-            const imdbId = await fetchIMDbID(item.id, type);
+            const mediaType = item.media_type || type;
+            const imdbId = await fetchIMDbID(item.id, mediaType);
             if (imdbId) {
-                window.location.href = `movie.html?imdb_id=${imdbId}&type=${type}`;
-            } else {
-                console.error("IMDb ID not found.");
+                window.location.href = `movie.html?imdb_id=${imdbId}`;
             }
         });
 
@@ -109,167 +150,134 @@ async function fetchIMDbID(tmdbId, type) {
     }
 }
 
+// ============================================
+// SEARCH FUNCTIONALITY
+// ============================================
+
+let searchTimeout = null;
+
 async function searchContent(query) {
+    clearTimeout(searchTimeout);
+
     if (query.length === 0) {
-        searchResults.style.display = 'none';
+        searchResults.classList.remove('active');
         searchResults.innerHTML = '';
         return;
     }
-    searchResults.style.display = 'block';
-    searchResults.innerHTML = '';
 
-    try {
-        const [movieResponse, tvResponse] = await Promise.all([
-            fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}`),
-            fetch(`https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&query=${query}`)
-        ]);
+    // Debounce search
+    searchTimeout = setTimeout(async () => {
+        try {
+            const [movieResponse, tvResponse] = await Promise.all([
+                fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}`),
+                fetch(`https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&query=${encodeURIComponent(query)}`)
+            ]);
 
-        const movieData = await movieResponse.json();
-        const tvData = await tvResponse.json();
+            const movieData = await movieResponse.json();
+            const tvData = await tvResponse.json();
 
-        const results = [...movieData.results, ...tvData.results];
-        displaySearchResults(results);
-    } catch (error) {
-        console.error("Error searching content: ", error);
-    }
+            const results = [...movieData.results, ...tvData.results].slice(0, 8);
+            displaySearchResults(results);
+        } catch (error) {
+            console.error("Error searching content: ", error);
+        }
+    }, 300);
 }
 
 function displaySearchResults(items) {
+    if (!searchResults) return;
+
     searchResults.innerHTML = '';
+
+    if (items.length === 0) {
+        searchResults.innerHTML = '<div class="no-search-results">No results found</div>';
+        searchResults.classList.add('active');
+        return;
+    }
+
     items.forEach(item => {
-        if (!item.poster_path && !item.backdrop_path) return; // Skip items without images
+        if (!item.poster_path) return;
 
         const searchItem = document.createElement('div');
-        searchItem.classList.add('search-item');
+        searchItem.className = 'search-item';
 
         const img = document.createElement('img');
-        img.src = `https://image.tmdb.org/t/p/w500${item.poster_path || item.backdrop_path}`;
+        img.src = `https://image.tmdb.org/t/p/w200${item.poster_path}`;
         img.alt = item.title || item.name;
+
+        const info = document.createElement('div');
+        info.className = 'search-item-info';
 
         const title = document.createElement('h3');
         title.textContent = item.title || item.name;
 
+        const meta = document.createElement('div');
+        meta.className = 'search-item-meta';
+
+        const type = item.media_type || (item.first_air_date ? 'TV Show' : 'Movie');
+        const year = (item.release_date || item.first_air_date || '').split('-')[0];
+
+        meta.innerHTML = `
+            <span class="search-type">${type}</span>
+            ${year ? `<span class="search-year">${year}</span>` : ''}
+        `;
+
+        const rating = document.createElement('div');
+        rating.className = 'search-item-rating';
+        rating.innerHTML = `<span>★</span> ${item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}`;
+
+        info.appendChild(title);
+        info.appendChild(meta);
+        info.appendChild(rating);
+
         searchItem.appendChild(img);
-        searchItem.appendChild(title);
+        searchItem.appendChild(info);
         searchResults.appendChild(searchItem);
 
-        const type = item.media_type || (item.first_air_date ? 'tv' : 'movie');
+        const mediaType = item.media_type || (item.first_air_date ? 'tv' : 'movie');
         searchItem.addEventListener('click', async () => {
-            const imdbId = await fetchIMDbID(item.id, type);
+            const imdbId = await fetchIMDbID(item.id, mediaType);
             if (imdbId) {
-                window.location.href = `movie.html?imdb_id=${imdbId}&type=${type}`;
-            } else {
-                console.error("IMDb ID not found.");
+                window.location.href = `movie.html?imdb_id=${imdbId}`;
+                searchResults.classList.remove('active');
+                searchBar.value = '';
             }
         });
     });
+
+    searchResults.classList.add('active');
 }
 
 searchButton.addEventListener('click', () => {
     const query = searchBar.value.trim();
     if (query) {
-        window.location.href = `search.html?query=${query}`;
+        window.location.href = `search.html?query=${encodeURIComponent(query)}`;
     }
 });
 
 searchBar.addEventListener('input', (e) => {
-    const query = e.target.value.trim();
-    searchContent(query);
+    searchContent(e.target.value.trim());
 });
 
-// Functions for handling TV shows and episodes
-async function fetchSeasons(tvId) {
-    try {
-        const response = await fetch(`https://api.themoviedb.org/3/tv/${tvId}?api_key=${apiKey}`);
-        const data = await response.json();
-        displaySeasons(data.seasons, tvId);
-    } catch (error) {
-        console.error("Error fetching seasons: ", error);
+// Close search dropdown when clicking outside
+document.addEventListener('click', (e) => {
+    if (!searchResults.contains(e.target) && !searchBar.contains(e.target) && !searchButton.contains(e.target)) {
+        searchResults.classList.remove('active');
     }
-}
+});
 
-function displaySeasons(seasons, tvId) {
-    seasonList.innerHTML = '';
-    seasons.forEach(season => {
-        const button = document.createElement('button');
-        button.textContent = `Season ${season.season_number}`;
-        button.classList.add('season-item');
-        button.addEventListener('click', () => {
-            currentSeason = season.season_number;
-            setActiveSeasonButton(button);
-            fetchEpisodes(tvId, season.season_number);
-        });
-        seasonList.appendChild(button);
-    });
-    setActiveSeasonButton(seasonList.firstChild);
-}
+// ============================================
+// FEATURED CONTENT / CAROUSEL
+// ============================================
 
-async function fetchEpisodes(tvId, seasonNumber) {
-    try {
-        const response = await fetch(`https://api.themoviedb.org/3/tv/${tvId}/season/${seasonNumber}?api_key=${apiKey}`);
-        const data = await response.json();
-        displayEpisodes(data.episodes);
-    } catch (error) {
-        console.error("Error fetching episodes: ", error);
-    }
-}
-
-function displayEpisodes(episodes) {
-    episodeList.innerHTML = '';
-    episodes.forEach((episode, index) => {
-        const div = document.createElement('div');
-        div.classList.add('episode-item');
-        const img = document.createElement('img');
-        img.src = `https://image.tmdb.org/t/p/w500${episode.still_path}`;
-        img.alt = episode.name;
-        const title = document.createElement('p');
-        title.textContent = episode.name;
-        div.appendChild(img);
-        div.appendChild(title);
-        div.addEventListener('click', () => {
-            currentEpisode = episode.episode_number;
-        });
-        episodeList.appendChild(div);
-        if (index === 0 && currentSeason === 1) {
-        }
-    });
-}
-
-// Function to set active season button
-function setActiveSeasonButton(button) {
-    const buttons = document.querySelectorAll('.season-item');
-    buttons.forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
-}
-
-// Check URL parameters to determine if the selected item is a movie or TV show
-const urlParams = new URLSearchParams(window.location.search);
-const mediaType = urlParams.get('type');
-
-if (mediaType === 'movie') {
-    episodeSection.style.display = 'none';
-} else if (mediaType === 'tv') {
-    episodeSection.style.display = 'block';
-    const imdbId = urlParams.get('imdb_id');
-    fetchSeasons(imdbId);
-}
-
-// Fetch the content for the sections
-fetchMovies();
-fetchTVShows();
-fetchOnTheAir();
-fetchAiringToday();
-fetchUpcomingMovies();
-
-// Featured Content Section
 async function fetchFeaturedContent() {
     try {
         const response = await fetch(`https://api.themoviedb.org/3/trending/all/week?api_key=${apiKey}`);
         const data = await response.json();
-        featuredContent.push(...data.results.slice(0, 4)); // Only get the top 4 trending items
+        featuredContent.push(...data.results.slice(0, 5));
 
         displayFeaturedContent();
-        setInterval(nextFeaturedContent, 5000); // Change every 5 seconds
+        startCarouselAutoPlay();
     } catch (error) {
         console.error("Error fetching featured content: ", error);
     }
@@ -277,192 +285,272 @@ async function fetchFeaturedContent() {
 
 function displayFeaturedContent() {
     const carousel = document.getElementById('carousel');
-    carousel.innerHTML = ''; // Clear existing carousel items
+    const indicatorsContainer = document.getElementById('carousel-indicators');
 
-    featuredContent.forEach(async item => {
+    if (!carousel) return;
+
+    carousel.innerHTML = '';
+    if (indicatorsContainer) indicatorsContainer.innerHTML = '';
+
+    featuredContent.forEach((item, index) => {
         const div = document.createElement('div');
-        div.classList.add('featured-item');
-        div.style.backgroundImage = `url(https://image.tmdb.org/t/p/w1280${item.backdrop_path || item.poster_path})`;
+        div.className = 'featured-item';
+        div.style.backgroundImage = `url(https://image.tmdb.org/t/p/original${item.backdrop_path || item.poster_path})`;
 
         const fadeDiv = document.createElement('div');
-        fadeDiv.classList.add('fade-bottom');
+        fadeDiv.className = 'fade-bottom';
 
         const detailsDiv = document.createElement('div');
-        detailsDiv.classList.add('featured-details');
+        detailsDiv.className = 'featured-details';
 
         const title = document.createElement('h2');
         title.textContent = item.title || item.name;
 
         const ratingDiv = document.createElement('div');
-        ratingDiv.classList.add('rating');
-        const ratingImg = document.createElement('img');
-        ratingImg.src = 'imdblogo.png';
-        ratingImg.alt = 'IMDb Logo';
-        const ratingSpan = document.createElement('span');
-        ratingSpan.textContent = item.vote_average || 'N/A';
+        ratingDiv.className = 'rating';
+        ratingDiv.innerHTML = `
+            <span class="rating-star">★</span>
+            <span>${item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}</span>
+        `;
 
-        ratingDiv.appendChild(ratingImg);
-        ratingDiv.appendChild(ratingSpan);
+        const overview = document.createElement('p');
+        overview.textContent = item.overview || 'No description available.';
 
-        const description = document.createElement('p');
-        description.textContent = item.overview;
+        const watchButton = document.createElement('button');
+        watchButton.className = 'featured-watch-btn';
+        watchButton.innerHTML = 'Watch Now →';
 
         detailsDiv.appendChild(title);
         detailsDiv.appendChild(ratingDiv);
-        detailsDiv.appendChild(description);
+        detailsDiv.appendChild(overview);
+        detailsDiv.appendChild(watchButton);
 
         div.appendChild(fadeDiv);
         div.appendChild(detailsDiv);
 
+        // Add click handler to item
         div.addEventListener('click', async () => {
-            const imdbId = await fetchIMDbID(item.id, item.media_type || (item.first_air_date ? 'tv' : 'movie'));
+            const mediaType = item.media_type || (item.first_air_date ? 'tv' : 'movie');
+            const imdbId = await fetchIMDbID(item.id, mediaType);
             if (imdbId) {
-                window.location.href = `movie.html?imdb_id=${imdbId}&type=${item.media_type || (item.first_air_date ? 'tv' : 'movie')}`;
-            } else {
-                console.error("IMDb ID not found.");
+                window.location.href = `movie.html?imdb_id=${imdbId}`;
             }
         });
 
         carousel.appendChild(div);
+
+        // Create indicator
+        if (indicatorsContainer) {
+            const indicator = document.createElement('button');
+            indicator.className = 'indicator';
+            indicator.setAttribute('data-index', index);
+            indicator.addEventListener('click', () => {
+                goToSlide(index);
+            });
+            indicatorsContainer.appendChild(indicator);
+        }
     });
 
-    // Initialize first item as active
-    document.querySelector('.featured-item').classList.add('active');
-    carousel.style.animation = 'none'; // Disable animation to allow manual control
-    setTimeout(() => {
-        carousel.style.animation = '';
-    }, 10);
+    // Set first item and indicator as active
+    const firstItem = carousel.querySelector('.featured-item');
+    if (firstItem) firstItem.classList.add('active');
+
+    const firstIndicator = indicatorsContainer?.querySelector('.indicator');
+    if (firstIndicator) firstIndicator.classList.add('active');
 }
 
-function nextFeaturedContent() {
+function goToSlide(index) {
     const carousel = document.getElementById('carousel');
-    currentIndex = (currentIndex + 1) % featuredContent.length;
+    const indicators = document.querySelectorAll('.indicator');
+
+    currentIndex = index;
     const newTransform = -100 * currentIndex;
-    carousel.style.transform = `translateX(${newTransform}%)`;
+
+    if (carousel) {
+        carousel.style.transform = `translateX(${newTransform}%)`;
+    }
+
+    // Update indicators
+    indicators.forEach((ind, i) => {
+        ind.classList.toggle('active', i === currentIndex);
+    });
 }
 
-function prevFeaturedContent() {
-    const carousel = document.getElementById('carousel');
-    currentIndex = (currentIndex - 1 + featuredContent.length) % featuredContent.length;
-    const newTransform = -100 * currentIndex;
-    carousel.style.transform = `translateX(${newTransform}%)`;
+function nextSlide() {
+    const newIndex = (currentIndex + 1) % featuredContent.length;
+    goToSlide(newIndex);
 }
 
-document.getElementById('prevBtn').addEventListener('click', () => {
-    prevFeaturedContent();
-    carousel.style.animation = 'none'; // Disable animation to allow manual control
-    setTimeout(() => {
-        carousel.style.animation = '';
-    }, 10);
+function prevSlide() {
+    const newIndex = (currentIndex - 1 + featuredContent.length) % featuredContent.length;
+    goToSlide(newIndex);
+}
+
+function startCarouselAutoPlay() {
+    if (carouselInterval) clearInterval(carouselInterval);
+    carouselInterval = setInterval(nextSlide, 5000);
+}
+
+function stopCarouselAutoPlay() {
+    if (carouselInterval) {
+        clearInterval(carouselInterval);
+        carouselInterval = null;
+    }
+}
+
+// Carousel navigation buttons
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+        stopCarouselAutoPlay();
+        prevSlide();
+        startCarouselAutoPlay();
+    });
+}
+
+if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+        stopCarouselAutoPlay();
+        nextSlide();
+        startCarouselAutoPlay();
+    });
+}
+
+// ============================================
+// SCROLL BUTTONS FUNCTIONALITY
+// ============================================
+
+document.querySelectorAll('.action-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const targetId = btn.dataset.target;
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+            const scrollAmount = 600;
+            if (btn.classList.contains('scroll-left')) {
+                targetElement.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            } else if (btn.classList.contains('scroll-right')) {
+                targetElement.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        }
+    });
 });
 
-document.getElementById('nextBtn').addEventListener('click', () => {
-    nextFeaturedContent();
-    carousel.style.animation = 'none'; // Disable animation to allow manual control
-    setTimeout(() => {
-        carousel.style.animation = '';
-    }, 10);
-});
+// ============================================
+// CONTINUE WATCHING SECTION
+// ============================================
 
-document.addEventListener('DOMContentLoaded', fetchFeaturedContent);
-
-// Continue Watching Section
-// Function to add new content to the top of the list
-function addNewContent(imdbId) {
-    let continueWatching = JSON.parse(localStorage.getItem('continueWatching')) || [];
-    continueWatching = [imdbId, ...continueWatching.filter(id => id !== imdbId)]; // Add new content at the top and remove if already exists
-    localStorage.setItem('continueWatching', JSON.stringify(continueWatching));
-    fetchContinueWatching(); // Refresh the list
-}
-
-// Function to move selected content to the top of the list
-function moveToTop(imdbId) {
-    let continueWatching = JSON.parse(localStorage.getItem('continueWatching')) || [];
-    continueWatching = [imdbId, ...continueWatching.filter(id => id !== imdbId)]; // Move selected content to the top
-    localStorage.setItem('continueWatching', JSON.stringify(continueWatching));
-    fetchContinueWatching(); // Refresh the list
-}
-
-// Function to save the reordered list (already handled by addNewContent and moveToTop)
-
-// Modified displayContinueWatching function to use moveToTop on click
-function displayContinueWatching(movie, imdbId) {
-    const container = document.getElementById('continue-watching-grid');
-    const div = document.createElement('div');
-    div.className = 'grid-item';
-    div.innerHTML = `
-        <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
-        <button class="cross-button">&times;</button>
-        <div class="movie-details">
-            <span class="position">Resume watching</span>
-        </div>
-    `;
-    div.querySelector('.cross-button').addEventListener('click', (e) => {
-        e.stopPropagation();
-        removeFromContinueWatching(imdbId);
-        div.remove();
-    });
-    div.addEventListener('click', () => {
-        moveToTop(imdbId); // Move to top when clicked
-        window.location.href = `player.html?imdb_id=${imdbId}`;
-    });
-
-    container.appendChild(div);
-}
 async function fetchContinueWatching() {
     let continueWatching = JSON.parse(localStorage.getItem('continueWatching')) || [];
     const continueWatchingSection = document.getElementById('continue-watching');
 
-    // Hide the section if there are no items
+    if (!continueWatchingGrid || !continueWatchingSection) return;
+
+    // Hide section if no items
     if (continueWatching.length === 0) {
         continueWatchingSection.style.display = 'none';
-        return; // Exit function if no items
+        return;
     }
 
-    continueWatching.forEach(async imdbId => {
+    continueWatchingSection.style.display = 'block';
+    continueWatchingGrid.innerHTML = '';
+
+    for (const imdbId of continueWatching.slice(0, 10)) {
         try {
             const response = await fetch(`https://api.themoviedb.org/3/find/${imdbId}?api_key=${apiKey}&external_source=imdb_id`);
             const data = await response.json();
-            const movie = data.movie_results[0] || data.tv_results[0];
-            displayContinueWatching(movie, imdbId);
+
+            if (data.movie_results.length || data.tv_results.length) {
+                const movie = data.movie_results[0] || data.tv_results[0];
+                const mediaType = data.movie_results.length ? 'movie' : 'tv';
+                displayContinueWatchingItem(movie, imdbId, mediaType);
+            }
         } catch (error) {
-            console.error('Error fetching movie details:', error);
+            console.error("Error fetching continue watching item: ", error);
         }
-    });
+    }
 }
 
-function displayContinueWatching(movie, imdbId) {
-    const container = document.getElementById('continue-watching-grid');
+function displayContinueWatchingItem(movie, imdbId, type) {
+    if (!continueWatchingGrid) return;
+
     const div = document.createElement('div');
-    div.className = 'grid-item';
+    div.className = 'grid-item continue-item';
     div.innerHTML = `
-        <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
-        <button class="cross-button">&times;</button>
+        <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title || movie.name}">
+        <button class="cross-button">×</button>
         <div class="movie-details">
-            <span class="position">Resume watching</span>
+            <span class="position">Resume</span>
+        </div>
+        <div class="rating-overlay">
+            <span>★</span> ${movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}
         </div>
     `;
+
     div.querySelector('.cross-button').addEventListener('click', (e) => {
         e.stopPropagation();
         removeFromContinueWatching(imdbId);
         div.remove();
+
+        // Hide section if no items left
+        let continueWatching = JSON.parse(localStorage.getItem('continueWatching')) || [];
+        if (continueWatching.length === 0) {
+            document.getElementById('continue-watching').style.display = 'none';
+        }
     });
+
     div.addEventListener('click', () => {
+        moveToTop(imdbId);
         window.location.href = `player.html?imdb_id=${imdbId}`;
     });
 
-    container.appendChild(div);
+    continueWatchingGrid.appendChild(div);
+}
+
+function addNewContent(imdbId) {
+    let continueWatching = JSON.parse(localStorage.getItem('continueWatching')) || [];
+    continueWatching = [imdbId, ...continueWatching.filter(id => id !== imdbId)];
+    localStorage.setItem('continueWatching', JSON.stringify(continueWatching));
+    fetchContinueWatching();
+}
+
+function moveToTop(imdbId) {
+    let continueWatching = JSON.parse(localStorage.getItem('continueWatching')) || [];
+    continueWatching = [imdbId, ...continueWatching.filter(id => id !== imdbId)];
+    localStorage.setItem('continueWatching', JSON.stringify(continueWatching));
 }
 
 function removeFromContinueWatching(imdbId) {
     let continueWatching = JSON.parse(localStorage.getItem('continueWatching')) || [];
-    console.log("Before removal:", continueWatching); // Debug log
     continueWatching = continueWatching.filter(id => id !== imdbId);
     localStorage.setItem('continueWatching', JSON.stringify(continueWatching));
-    console.log("After removal:", continueWatching); // Debug log
 }
 
-// Call this function on page load to populate the "Continue Watching" section
+// ============================================
+// INITIALIZE
+// ============================================
+
 document.addEventListener('DOMContentLoaded', () => {
+    // Fetch all content
+    fetchMovies();
+    fetchTVShows();
+    fetchOnTheAir();
+    fetchAiringToday();
+    fetchUpcomingMovies();
     fetchContinueWatching();
+
+    // Fetch featured content
+    fetchFeaturedContent();
+
+    // Header scroll effect
+    const header = document.querySelector('.modern-header');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
 });

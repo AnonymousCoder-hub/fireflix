@@ -22,7 +22,7 @@
 </head>
 <body>
 
-  <!-- Modern Glassmorphism Header -->
+  <!-- Modern Header -->
   <header class="modern-header">
     <nav class="navbar">
       <div class="nav-left">
@@ -34,26 +34,27 @@
         </a>
       </div>
 
-      <div class="nav-center desktop-nav">
-        <ul class="nav-links">
-          <li><a href="#" class="active">Home</a></li>
-          <li><a href="#movies">Movies</a></li>
-          <li><a href="#tvshows">TV Shows</a></li>
-          <li><a href="filter.html">Filter</a></li>
-          <li><a href="settings.html">Settings</a></li>
-        </ul>
-      </div>
-
       <div class="nav-right">
         <div class="search-container">
-          <input type="text" id="search-bar" placeholder="Search movies, TV shows..." aria-label="Search" />
+          <input type="text" id="search-bar" placeholder="Search movies, TV shows..." aria-label="Search" autocomplete="off" />
           <button id="search-button" class="search-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="11" cy="11" r="8"></circle>
               <path d="m21 21-4.35-4.35"></path>
             </svg>
           </button>
+          <div id="search-results" class="search-results"></div>
         </div>
+
+        <div class="desktop-nav">
+          <ul class="nav-links">
+            <li><a href="#movies">Movies</a></li>
+            <li><a href="#tvshows">TV Shows</a></li>
+            <li><a href="filter.html">Filter</a></li>
+            <li><a href="settings.html">Settings</a></li>
+          </ul>
+        </div>
+
         <button class="mobile-menu-btn" id="menu-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -67,28 +68,22 @@
     <!-- Mobile Navigation -->
     <div class="mobile-nav" id="mobile-nav">
       <ul class="mobile-nav-links">
-        <li><a href="#" class="active">Home</a></li>
+        <li><a href="#">Home</a></li>
         <li><a href="#movies">Movies</a></li>
         <li><a href="#tvshows">TV Shows</a></li>
         <li><a href="filter.html">Filter</a></li>
         <li><a href="settings.html">Settings</a></li>
       </ul>
     </div>
-
-    <!-- Search Results Dropdown -->
-    <div id="search-results" class="search-results"></div>
   </header>
 
   <main>
-    <!-- Modern Hero Section with Featured Content -->
+    <!-- Hero Section with Featured Content -->
     <section class="hero-section">
       <div class="carousel-container">
         <div class="carousel" id="carousel">
-          <!-- Carousel items will be inserted here dynamically -->
           <div class="skeleton-hero"></div>
         </div>
-
-        <div class="carousel-overlay"></div>
 
         <!-- Hero Navigation -->
         <div class="carousel-nav">
@@ -110,10 +105,10 @@
     </section>
 
     <!-- Continue Watching Section -->
-    <section class="content-section" id="continue-watching" aria-labelledby="continue-watching-title">
+    <section class="content-section" id="continue-watching">
       <div class="section-header">
-        <h2 class="section-title" id="continue-watching-title">
-          <span class="title-icon">🎬</span>
+        <h2 class="section-title">
+          <span class="title-icon">▶</span>
           Continue Watching
         </h2>
         <div class="section-actions">
@@ -130,16 +125,20 @@
         </div>
       </div>
       <div class="content-scroller">
-        <div class="grid modern-grid" id="continue-watching-grid">
-          <!-- Continue Watching Thumbnails will be inserted here dynamically -->
+        <div class="modern-grid" id="continue-watching-grid">
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
         </div>
       </div>
     </section>
 
     <!-- Trending Movies Section -->
-    <section class="content-section" id="movies" aria-labelledby="movies-title">
+    <section class="content-section" id="movies">
       <div class="section-header">
-        <h2 class="section-title" id="movies-title">
+        <h2 class="section-title">
           <span class="title-icon">🔥</span>
           Trending Movies
         </h2>
@@ -157,7 +156,7 @@
         </div>
       </div>
       <div class="content-scroller">
-        <div class="grid modern-grid" id="movies-grid">
+        <div class="modern-grid" id="movies-grid">
           <div class="skeleton-card"></div>
           <div class="skeleton-card"></div>
           <div class="skeleton-card"></div>
@@ -168,9 +167,9 @@
     </section>
 
     <!-- Top Rated TV Shows Section -->
-    <section class="content-section" id="tvshows" aria-labelledby="tvshows-title">
+    <section class="content-section" id="tvshows">
       <div class="section-header">
-        <h2 class="section-title" id="tvshows-title">
+        <h2 class="section-title">
           <span class="title-icon">⭐</span>
           Top Rated TV Shows
         </h2>
@@ -188,7 +187,7 @@
         </div>
       </div>
       <div class="content-scroller">
-        <div class="grid modern-grid" id="tvshows-grid">
+        <div class="modern-grid" id="tvshows-grid">
           <div class="skeleton-card"></div>
           <div class="skeleton-card"></div>
           <div class="skeleton-card"></div>
@@ -199,9 +198,9 @@
     </section>
 
     <!-- On The Air Section -->
-    <section class="content-section" id="on-the-air" aria-labelledby="on-the-air-title">
+    <section class="content-section" id="on-the-air">
       <div class="section-header">
-        <h2 class="section-title" id="on-the-air-title">
+        <h2 class="section-title">
           <span class="title-icon">📺</span>
           On The Air
         </h2>
@@ -219,7 +218,7 @@
         </div>
       </div>
       <div class="content-scroller">
-        <div class="grid modern-grid" id="on-the-air-grid">
+        <div class="modern-grid" id="on-the-air-grid">
           <div class="skeleton-card"></div>
           <div class="skeleton-card"></div>
           <div class="skeleton-card"></div>
@@ -230,9 +229,9 @@
     </section>
 
     <!-- Airing Today Section -->
-    <section class="content-section" id="airing-today" aria-labelledby="airing-today-title">
+    <section class="content-section" id="airing-today">
       <div class="section-header">
-        <h2 class="section-title" id="airing-today-title">
+        <h2 class="section-title">
           <span class="title-icon">📅</span>
           Airing Today
         </h2>
@@ -250,7 +249,7 @@
         </div>
       </div>
       <div class="content-scroller">
-        <div class="grid modern-grid" id="airing-today-grid">
+        <div class="modern-grid" id="airing-today-grid">
           <div class="skeleton-card"></div>
           <div class="skeleton-card"></div>
           <div class="skeleton-card"></div>
@@ -261,9 +260,9 @@
     </section>
 
     <!-- Upcoming Movies Section -->
-    <section class="content-section" id="upcoming-movies" aria-labelledby="upcoming-movies-title">
+    <section class="content-section" id="upcoming-movies">
       <div class="section-header">
-        <h2 class="section-title" id="upcoming-movies-title">
+        <h2 class="section-title">
           <span class="title-icon">🚀</span>
           Upcoming Movies
         </h2>
@@ -281,7 +280,7 @@
         </div>
       </div>
       <div class="content-scroller">
-        <div class="grid modern-grid" id="upcoming-movies-grid">
+        <div class="modern-grid" id="upcoming-movies-grid">
           <div class="skeleton-card"></div>
           <div class="skeleton-card"></div>
           <div class="skeleton-card"></div>
@@ -292,7 +291,7 @@
     </section>
   </main>
 
-  <!-- Modern Banner -->
+  <!-- Banner -->
   <div class="modern-banner">
     <div class="banner-content">
       <div class="banner-icon">
@@ -310,7 +309,7 @@
     </div>
   </div>
 
-  <!-- Modern Footer -->
+  <!-- Footer -->
   <footer class="modern-footer">
     <div class="footer-content">
       <div class="footer-section">
@@ -342,26 +341,20 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2024 FireFlix. All rights reserved. Made with ❤️</p>
+      <p>© 2024 FireFlix. All rights reserved. Made with ❤️</p>
     </div>
   </footer>
 
   <!-- DMCA Notice Modal -->
   <div class="modal-overlay" id="dmca-modal">
     <div class="modal-content">
-      <button class="modal-close" id="dmca-close">&times;</button>
+      <button class="modal-close" id="dmca-close">×</button>
       <h2>DMCA Notice</h2>
       <p>This site does not host any content nor has any server for hosting content. All the content here is hosted on third-party sites which have no ties or connections to this site. Any action must be taken on those sites, and this site does not indulge in any hosting of content. The available streams are third-party sources available online and they are simply shown to users.</p>
     </div>
   </div>
 
   <script>
-    // Mobile Menu Toggle
-    document.getElementById('menu-icon').addEventListener('click', function () {
-      document.getElementById('mobile-nav').classList.toggle('active');
-      this.classList.toggle('active');
-    });
-
     // DMCA Modal
     document.getElementById('dmca-button').addEventListener('click', function (event) {
       event.preventDefault();

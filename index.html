@@ -1,158 +1,381 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
-
-      <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0Q1VZ5TT2T"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-0Q1VZ5TT2T');
-    </script>
-  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0Q1VZ5TT2T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-0Q1VZ5TT2T');
+  </script>
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FireFlix</title>
+  <meta name="description" content="Stream your favorite movies and TV shows in HD quality on FireFlix" />
+  <title>FireFlix - Watch Movies & TV Shows Online</title>
   <link rel="icon" type="image/x-icon" href="logo.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  
 
-
-  <header>
-    <nav>
-      <h1>FireFlix</h1>
-      <div class="search-bar-icon">
-        <div class="menu-icon" id="menu-icon">
-          <div class="line"></div>
-          <div class="line"></div>
-          <div class="line"></div>
-        </div>
-        <div class="search-container">
-          <input type="text" id="search-bar" placeholder="Search..." aria-label="Search" />
-          <button id="search-button">Search</button>
-        </div>
+  <!-- Modern Glassmorphism Header -->
+  <header class="modern-header">
+    <nav class="navbar">
+      <div class="nav-left">
+        <a href="#" class="logo">
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+          <span>FireFlix</span>
+        </a>
       </div>
-      <ul class="nav-links" id="nav-links">
-        <li><a href="#">Home</a></li>
+
+      <div class="nav-center desktop-nav">
+        <ul class="nav-links">
+          <li><a href="#" class="active">Home</a></li>
+          <li><a href="#movies">Movies</a></li>
+          <li><a href="#tvshows">TV Shows</a></li>
+          <li><a href="filter.html">Filter</a></li>
+          <li><a href="settings.html">Settings</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-right">
+        <div class="search-container">
+          <input type="text" id="search-bar" placeholder="Search movies, TV shows..." aria-label="Search" />
+          <button id="search-button" class="search-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+          </button>
+        </div>
+        <button class="mobile-menu-btn" id="menu-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobile-nav">
+      <ul class="mobile-nav-links">
+        <li><a href="#" class="active">Home</a></li>
         <li><a href="#movies">Movies</a></li>
         <li><a href="#tvshows">TV Shows</a></li>
         <li><a href="filter.html">Filter</a></li>
-        <li><a href="settings.html">Settings</a></li> <!-- New Settings Button -->
+        <li><a href="settings.html">Settings</a></li>
       </ul>
-      <div id="search-results"></div>
-    </nav>
+    </div>
+
+    <!-- Search Results Dropdown -->
+    <div id="search-results" class="search-results"></div>
   </header>
 
-  <main id="top">
-    <!-- Featured Content Section -->
-    <section id="featured-content" class="featured-content">
-      <div class="carousel" id="carousel">
-        <!-- Carousel items will be inserted here dynamically -->
-      </div>
-      <div class="carousel-nav">
-        <button id="prevBtn">&#10094;</button>
-        <button id="nextBtn">&#10095;</button>
+  <main>
+    <!-- Modern Hero Section with Featured Content -->
+    <section class="hero-section">
+      <div class="carousel-container">
+        <div class="carousel" id="carousel">
+          <!-- Carousel items will be inserted here dynamically -->
+          <div class="skeleton-hero"></div>
+        </div>
+
+        <div class="carousel-overlay"></div>
+
+        <!-- Hero Navigation -->
+        <div class="carousel-nav">
+          <button class="carousel-btn prev-btn" id="prevBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="carousel-btn next-btn" id="nextBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Carousel Indicators -->
+        <div class="carousel-indicators" id="carousel-indicators"></div>
       </div>
     </section>
-    <!-- End Featured Content Section -->
 
     <!-- Continue Watching Section -->
-    <section class="content-grid" id="continue-watching" aria-labelledby="continue-watching-title">
-      <h2 class="category-title" id="continue-watching-title">
-        <span class="vertical-line"></span>Continue Watching
-      </h2>
-      <div class="grid" id="continue-watching-grid">
-        <!-- Continue Watching Thumbnails will be inserted here dynamically -->
+    <section class="content-section" id="continue-watching" aria-labelledby="continue-watching-title">
+      <div class="section-header">
+        <h2 class="section-title" id="continue-watching-title">
+          <span class="title-icon">🎬</span>
+          Continue Watching
+        </h2>
+        <div class="section-actions">
+          <button class="action-btn scroll-left" data-target="continue-watching-grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="action-btn scroll-right" data-target="continue-watching-grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="content-scroller">
+        <div class="grid modern-grid" id="continue-watching-grid">
+          <!-- Continue Watching Thumbnails will be inserted here dynamically -->
+        </div>
       </div>
     </section>
 
-    <section class="content-grid" id="movies" aria-labelledby="movies-title">
-      <h2 class="category-title" id="movies-title">
-        <span class="vertical-line"></span>Trending Movies
-      </h2>
-      <div class="grid">
-        <!-- Movie Thumbnails will be inserted here dynamically -->
+    <!-- Trending Movies Section -->
+    <section class="content-section" id="movies" aria-labelledby="movies-title">
+      <div class="section-header">
+        <h2 class="section-title" id="movies-title">
+          <span class="title-icon">🔥</span>
+          Trending Movies
+        </h2>
+        <div class="section-actions">
+          <button class="action-btn scroll-left" data-target="movies-grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="action-btn scroll-right" data-target="movies-grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="content-scroller">
+        <div class="grid modern-grid" id="movies-grid">
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
       </div>
     </section>
 
-    <section class="content-grid" id="tvshows" aria-labelledby="tvshows-title">
-      <h2 class="category-title" id="tvshows-title">
-        <span class="vertical-line"></span>Top Rated TV Shows
-      </h2>
-      <div class="grid">
-        <!-- TV Show Thumbnails will be inserted here dynamically -->
+    <!-- Top Rated TV Shows Section -->
+    <section class="content-section" id="tvshows" aria-labelledby="tvshows-title">
+      <div class="section-header">
+        <h2 class="section-title" id="tvshows-title">
+          <span class="title-icon">⭐</span>
+          Top Rated TV Shows
+        </h2>
+        <div class="section-actions">
+          <button class="action-btn scroll-left" data-target="tvshows-grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="action-btn scroll-right" data-target="tvshows-grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="content-scroller">
+        <div class="grid modern-grid" id="tvshows-grid">
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
       </div>
     </section>
 
-    <!-- New Sections Below -->
-    <section class="content-grid" id="on-the-air" aria-labelledby="on-the-air-title">
-      <h2 class="category-title" id="on-the-air-title">
-        <span class="vertical-line"></span>On The Air
-      </h2>
-      <div class="grid">
-        <!-- On The Air Thumbnails will be inserted here dynamically -->
+    <!-- On The Air Section -->
+    <section class="content-section" id="on-the-air" aria-labelledby="on-the-air-title">
+      <div class="section-header">
+        <h2 class="section-title" id="on-the-air-title">
+          <span class="title-icon">📺</span>
+          On The Air
+        </h2>
+        <div class="section-actions">
+          <button class="action-btn scroll-left" data-target="on-the-air-grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="action-btn scroll-right" data-target="on-the-air-grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="content-scroller">
+        <div class="grid modern-grid" id="on-the-air-grid">
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
       </div>
     </section>
 
-    <section class="content-grid" id="airing-today" aria-labelledby="airing-today-title">
-      <h2 class="category-title" id="airing-today-title">
-        <span class="vertical-line"></span>Airing Today
-      </h2>
-      <div class="grid">
-        <!-- Airing Today Thumbnails will be inserted here dynamically -->
+    <!-- Airing Today Section -->
+    <section class="content-section" id="airing-today" aria-labelledby="airing-today-title">
+      <div class="section-header">
+        <h2 class="section-title" id="airing-today-title">
+          <span class="title-icon">📅</span>
+          Airing Today
+        </h2>
+        <div class="section-actions">
+          <button class="action-btn scroll-left" data-target="airing-today-grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="action-btn scroll-right" data-target="airing-today-grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="content-scroller">
+        <div class="grid modern-grid" id="airing-today-grid">
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
       </div>
     </section>
 
-    <section class="content-grid" id="upcoming-movies" aria-labelledby="upcoming-movies-title">
-      <h2 class="category-title" id="upcoming-movies-title">
-        <span class="vertical-line"></span>Upcoming Movies
-      </h2>
-      <div class="grid">
-        <!-- Upcoming Movies Thumbnails will be inserted here dynamically -->
+    <!-- Upcoming Movies Section -->
+    <section class="content-section" id="upcoming-movies" aria-labelledby="upcoming-movies-title">
+      <div class="section-header">
+        <h2 class="section-title" id="upcoming-movies-title">
+          <span class="title-icon">🚀</span>
+          Upcoming Movies
+        </h2>
+        <div class="section-actions">
+          <button class="action-btn scroll-left" data-target="upcoming-movies-grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="action-btn scroll-right" data-target="upcoming-movies-grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="content-scroller">
+        <div class="grid modern-grid" id="upcoming-movies-grid">
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
       </div>
     </section>
   </main>
 
-  <!-- Banner Section -->
-  <div class="banner">
-    <p>Download the fireflix webapp for Android TV, firestick, and devices supporting apk files 
-      <a href="https://github.com/AnonymousCoder-hub/FireFlix-Application-/raw/refs/heads/main/FireFlix_v2.2.apk">Fireflix App</a>.
-    </p>
+  <!-- Modern Banner -->
+  <div class="modern-banner">
+    <div class="banner-content">
+      <div class="banner-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/>
+        </svg>
+      </div>
+      <div class="banner-text">
+        <h3>Download FireFlix App</h3>
+        <p>Available for Android TV, Firestick, and devices supporting APK files</p>
+      </div>
+      <a href="https://github.com/AnonymousCoder-hub/FireFlix-Application-/raw/refs/heads/main/FireFlix_v2.2.apk" class="banner-btn">
+        Download Now
+      </a>
+    </div>
   </div>
 
-  <!-- Updated Footer Links -->
-  <footer>
-    <p>&copy; 2024 FireFlix. All rights reserved.</p>
-    <div class="footer-links">
-      <a href="#">Home</a> | 
-      <a href="#movies">Movies</a> | 
-      <a href="#tvshows">TV Shows</a> | 
-      <a href="https://discord.gg/aMEGepsr5A">Discord</a> | <!-- Discord link added -->
-      <a href="#" id="dmca-button">DMCA</a> <!-- DMCA button added -->
+  <!-- Modern Footer -->
+  <footer class="modern-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>FireFlix</h4>
+        <p>Your ultimate destination for streaming movies and TV shows in HD quality.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#movies">Movies</a></li>
+          <li><a href="#tvshows">TV Shows</a></li>
+          <li><a href="filter.html">Filter</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Community</h4>
+        <ul class="footer-links">
+          <li><a href="https://discord.gg/aMEGepsr5A" target="_blank" rel="noopener">Discord</a></li>
+          <li><a href="#" id="dmca-button">DMCA</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Legal</h4>
+        <ul class="footer-links">
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="about.html">About Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 FireFlix. All rights reserved. Made with ❤️</p>
     </div>
   </footer>
-    
-  <!-- DMCA Notice Section -->
-  <div class="dmca-notice" id="dmca-notice">
-    <p>This site does not host any content nor has any server for hosting content. All the content here is hosted on third-party sites which have no ties or connections to this site. Any action must be taken on those sites, and this site does not indulge in any hosting of content. The available streams are third-party sources available online and they are simply shown to users.</p>
+
+  <!-- DMCA Notice Modal -->
+  <div class="modal-overlay" id="dmca-modal">
+    <div class="modal-content">
+      <button class="modal-close" id="dmca-close">&times;</button>
+      <h2>DMCA Notice</h2>
+      <p>This site does not host any content nor has any server for hosting content. All the content here is hosted on third-party sites which have no ties or connections to this site. Any action must be taken on those sites, and this site does not indulge in any hosting of content. The available streams are third-party sources available online and they are simply shown to users.</p>
+    </div>
   </div>
 
   <script>
+    // Mobile Menu Toggle
     document.getElementById('menu-icon').addEventListener('click', function () {
-      document.getElementById('nav-links').classList.toggle('active');
+      document.getElementById('mobile-nav').classList.toggle('active');
+      this.classList.toggle('active');
     });
 
-    // Slide transition for DMCA notice
+    // DMCA Modal
     document.getElementById('dmca-button').addEventListener('click', function (event) {
-      event.preventDefault(); // Prevent the default anchor behavior
-      const dmcaNotice = document.getElementById('dmca-notice');
-      dmcaNotice.classList.toggle('visible');
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); // Scroll to the bottom
+      event.preventDefault();
+      document.getElementById('dmca-modal').classList.add('active');
+    });
+
+    document.getElementById('dmca-close').addEventListener('click', function () {
+      document.getElementById('dmca-modal').classList.remove('active');
+    });
+
+    document.getElementById('dmca-modal').addEventListener('click', function (e) {
+      if (e.target === this) {
+        this.classList.remove('active');
+      }
     });
   </script>
   <script src="scripts.js"></script>

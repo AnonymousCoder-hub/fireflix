@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0Q1VZ5TT2T"></script>
     <script>
@@ -10,86 +9,218 @@
       gtag('js', new Date());
       gtag('config', 'G-0Q1VZ5TT2T');
     </script>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Watch movies and TV shows on FireFlix." />
     <meta property="og:title" content="FireFlix - Watch Movies and TV Shows" />
     <meta property="og:description" content="Stream your favorite movies and TV shows." />
-    <meta property="og:image" content="logo.png" />
-    <meta property="og:url" content="https://fireflixhd1.netlify.app" />
-    <title>Player</title>
+    <title>Watch Now - FireFlix</title>
+    <link rel="icon" type="image/x-icon" href="logo.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="styles4.css" />
- 
   </head>
   <body>
-    
 
-    <header>
-      <nav>
-        <a href="index.html">Home</a>
+    <!-- Modern Header -->
+    <header class="modern-header player-header">
+      <nav class="navbar">
+        <div class="nav-left">
+          <a href="index.html" class="logo">
+            <svg class="logo-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <span>FireFlix</span>
+          </a>
+        </div>
+        <div class="nav-right">
+          <a href="index.html" class="back-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Home
+          </a>
+        </div>
       </nav>
     </header>
-    <main>
+
+    <main class="player-main">
+      <!-- Movie Logo -->
       <div class="logo-container">
         <img id="movie-logo" src="" alt="Movie Logo" class="hidden" />
       </div>
-      <div class="player-container">
-        <iframe
-          id="player-frame"
-          src=""
-          frameborder="0"
-          allowfullscreen
-          mozallowfullscreen
-          webkitallowfullscreen
-          scrolling="no"
-          title="Movie Player"
-        ></iframe>
-      </div>
-      <div class="dropdown">
-        <button class="dropbtn" id="selected-source">EZsource</button>
-        <div class="dropdown-content" id="dropdown-content">   
-                     
-          <a href="#" data-source="EZsource">EZsource</a>      
-          <a href="#" data-source="Vidsrc1">Vidsrc1</a>
-          <a href="#" data-source="AutoEmbed">AutoEmbed</a>
+
+      <!-- Player Section -->
+      <div class="player-section">
+        <div class="player-wrapper">
+          <div class="player-container">
+            <iframe
+              id="player-frame"
+              src=""
+              frameborder="0"
+              allowfullscreen
+              mozallowfullscreen
+              webkitallowfullscreen
+              scrolling="no"
+              title="Movie Player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            ></iframe>
+          </div>
+
+          <!-- Source Selector -->
+          <div class="source-selector">
+            <button class="source-btn" id="selected-source">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <span>EZsource</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="source-dropdown" id="source-dropdown">
+              <button class="source-option active" data-source="EZsource">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <circle cx="12" cy="12" r="10"/>
+                </svg>
+                EZsource
+              </button>
+              <button class="source-option" data-source="Vidsrc1">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <rect x="2" y="2" width="20" height="20" rx="2"/>
+                </svg>
+                Vidsrc1
+              </button>
+              <button class="source-option" data-source="AutoEmbed">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/>
+                </svg>
+                AutoEmbed
+              </button>
+            </div>
+          </div>
         </div>
+
+        <!-- Movie Description -->
+        <p id="movie-description" class="movie-desc"></p>
+
+        <!-- Episodes and Seasons Section -->
+        <section class="episodes-section" id="episodes">
+          <div class="section-header">
+            <h2 class="section-title">
+              <span class="title-icon">📺</span>
+              Episodes
+            </h2>
+          </div>
+
+          <!-- Season Tabs -->
+          <div class="season-tabs" id="season-tabs">
+            <!-- Seasons will be inserted here -->
+          </div>
+
+          <!-- Episode List -->
+          <div class="episode-list" id="episode-list">
+            <!-- Episodes will be inserted here -->
+          </div>
+        </section>
       </div>
-      <p id="movie-description"></p>
 
-      <!-- Episodes and Seasons Section -->
-      <section class="content-section" id="episodes">
-        <h2 class="category-title" id="episodes-title">
-          <span class="vertical-line"></span>Episodes
-        </h2>
-        <div id="episode-list" class="episode-list"></div>
-        <div id="season-list" class="season-list"></div>
-      </section>
-
+      <!-- Similar Movies/TV Shows Section -->
       <section class="content-section" id="similar">
-        <h2 class="category-title" id="similar-title">
-          <span class="vertical-line"></span>Similar Movies/TV Shows
-        </h2>
-        <div class="grid" id="similar-grid"></div>
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="title-icon">👍</span>
+            Similar Movies/TV Shows
+          </h2>
+          <div class="section-actions">
+            <button class="action-btn scroll-left" data-target="similar-grid">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+            <button class="action-btn scroll-right" data-target="similar-grid">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="content-scroller">
+          <div class="grid modern-grid" id="similar-grid">
+            <!-- Similar items will be inserted here -->
+          </div>
+        </div>
       </section>
 
+      <!-- On The Air Section -->
       <section class="content-section" id="on-the-air">
-        <h2 class="category-title" id="on-the-air-title">
-          <span class="vertical-line"></span>On The Air
-        </h2>
-        <div class="grid" id="on-the-air-grid"></div>
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="title-icon">📺</span>
+            On The Air
+          </h2>
+          <div class="section-actions">
+            <button class="action-btn scroll-left" data-target="on-the-air-grid">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+            <button class="action-btn scroll-right" data-target="on-the-air-grid">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="content-scroller">
+          <div class="grid modern-grid" id="on-the-air-grid">
+            <!-- On the air items will be inserted here -->
+          </div>
+        </div>
       </section>
 
+      <!-- Recommendations Section -->
       <section class="content-section" id="recommendations">
-        <h2 class="category-title" id="recommendations-title">
-          <span class="vertical-line"></span>Recommendations
-        </h2>
-        <div class="grid" id="recommendations-grid"></div>
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="title-icon">⭐</span>
+            Recommendations
+          </h2>
+          <div class="section-actions">
+            <button class="action-btn scroll-left" data-target="recommendations-grid">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+            <button class="action-btn scroll-right" data-target="recommendations-grid">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="content-scroller">
+          <div class="grid modern-grid" id="recommendations-grid">
+            <!-- Recommendations will be inserted here -->
+          </div>
+        </div>
       </section>
     </main>
 
-    <footer>
-      <p>&copy; 2024 FireFlix. All rights reserved.</p>
+    <footer class="modern-footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>FireFlix</h4>
+          <p>Stream your favorite movies and TV shows in HD quality.</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 FireFlix. All rights reserved.</p>
+      </div>
     </footer>
 
     <script>
@@ -99,11 +230,11 @@
       let mediaType;
       let tmdbId;
       const playerFrame = document.getElementById("player-frame");
-      const dropdownContent = document.getElementById("dropdown-content");
+      const sourceDropdown = document.getElementById("source-dropdown");
       const selectedSource = document.getElementById("selected-source");
       const movieLogo = document.getElementById("movie-logo");
       const movieDescription = document.getElementById("movie-description");
-      let currentSource = "Dream";
+      let currentSource = "EZsource";
       let currentSeason = 1;
       let currentEpisode = 1;
 
@@ -113,7 +244,7 @@
         const rememberedSource = localStorage.getItem("lastUsedSource");
         if (rememberedSource) {
           currentSource = rememberedSource;
-          selectedSource.textContent = currentSource;
+          updateSourceButton(currentSource);
         }
       }
 
@@ -136,7 +267,7 @@
               currentSeason = lastPlayed.season;
               currentEpisode = lastPlayed.episode;
               await fetchSeasons(tmdbId);
-              await fetchEpisodes(tmdbId, currentSeason); // Fetch and display episodes for the stored season
+              await fetchEpisodes(tmdbId, currentSeason);
             }
           } else {
             console.error("No movie or TV show found.");
@@ -147,7 +278,6 @@
       }
 
       function displayMovieDetails(movie) {
-        // Update this line to include the last played episode and season
         const lastPlayed = getLastPlayed(tmdbId);
         updatePlayerFrame(tmdbId, lastPlayed.season, lastPlayed.episode);
         movieDescription.textContent = movie.overview;
@@ -156,7 +286,7 @@
         const bannerUrl = `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
         document.documentElement.style.setProperty('--banner-url', `url(${bannerUrl})`);
 
-        // Fetch the logo image (correct API usage)
+        // Fetch the logo image
         fetchLogo(movie.id, mediaType);
       }
 
@@ -166,18 +296,16 @@
             `https://api.themoviedb.org/3/${mediaType}/${movieId}/images?api_key=${apiKey}`
           );
           const data = await response.json();
-          
+
           // Filter logos to only get English logos
           const englishLogos = data.logos.filter(logo => logo.iso_639_1 === 'en');
-          
+
           const logo = englishLogos.length > 0 ? englishLogos[0].file_path : '';
-          
+
           if (logo) {
             const logoUrl = `https://image.tmdb.org/t/p/original${logo}`;
             movieLogo.src = logoUrl;
             movieLogo.classList.remove("hidden");
-          } else {
-            console.error("No English logo found.");
           }
         } catch (error) {
           console.error("Error fetching logo: ", error);
@@ -243,7 +371,7 @@
               item.id,
               item.media_type || (item.first_air_date ? "tv" : "movie")
             );
-            window.location.href = `movie.html?imdb_id=${imdbId}&type=${item.media_type || (item.first_air_date ? "tv" : "movie")}`;
+            window.location.href = `movie.html?imdb_id=${imdbId}`;
           });
 
           container.appendChild(div);
@@ -278,17 +406,26 @@
       }
 
       function displaySeasons(seasons, tvId) {
-        const seasonList = document.getElementById("season-list");
-        seasonList.innerHTML = "";
+        const seasonTabs = document.getElementById("season-tabs");
+        seasonTabs.innerHTML = "";
         seasons.forEach((season) => {
           const button = document.createElement("button");
+          button.classList.add("season-tab");
           button.textContent = `Season ${season.season_number}`;
-          button.classList.add("season-item");
+          button.dataset.season = season.season_number;
+
+          if (season.season_number === currentSeason) {
+            button.classList.add("active");
+          }
+
           button.addEventListener("click", () => {
             currentSeason = season.season_number;
+            document.querySelectorAll('.season-tab').forEach(tab => tab.classList.remove('active'));
+            button.classList.add('active');
             fetchEpisodes(tvId, season.season_number);
           });
-          seasonList.appendChild(button);
+
+          seasonTabs.appendChild(button);
         });
       }
 
@@ -310,15 +447,46 @@
         episodes.forEach((episode) => {
           const div = document.createElement("div");
           div.classList.add("episode-item");
+
           const img = document.createElement("img");
           img.src = `https://image.tmdb.org/t/p/w500${episode.still_path}`;
           img.alt = episode.name;
-          const title = document.createElement("p");
-          title.textContent = episode.name;
-          div.appendChild(img);
-          div.appendChild(title);
+          img.classList.add("episode-thumb");
 
-          // Add click event to set active class and store last played episode
+          const episodeInfo = document.createElement("div");
+          episodeInfo.classList.add("episode-info");
+
+          const episodeNumber = document.createElement("span");
+          episodeNumber.classList.add("episode-number");
+          episodeNumber.textContent = `EP ${episode.episode_number}`;
+
+          const title = document.createElement("h3");
+          title.textContent = episode.name;
+
+          const overview = document.createElement("p");
+          overview.textContent = episode.overview || "No description available.";
+
+          const playIcon = document.createElement("div");
+          playIcon.classList.add("play-icon");
+          playIcon.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          `;
+
+          episodeInfo.appendChild(episodeNumber);
+          episodeInfo.appendChild(title);
+          episodeInfo.appendChild(overview);
+
+          div.appendChild(img);
+          div.appendChild(episodeInfo);
+          div.appendChild(playIcon);
+
+          // Check if this episode is the last played episode
+          if (episode.episode_number === currentEpisode) {
+            div.classList.add('active');
+          }
+
           div.addEventListener("click", () => {
             document.querySelectorAll('.episode-item').forEach(item => item.classList.remove('active'));
             div.classList.add('active');
@@ -328,18 +496,7 @@
           });
 
           episodeList.appendChild(div);
-
-          // Check if this episode is the last played episode
-          if (episode.episode_number === currentEpisode) {
-            div.classList.add('active');
-          }
         });
-
-        // Automatically select the last played episode
-        const lastPlayed = getLastPlayed(tvId);
-        currentSeason = lastPlayed.season;
-        currentEpisode = lastPlayed.episode;
-        updatePlayerFrame(tmdbId, currentSeason, currentEpisode);
       }
 
       function updatePlayerFrame(tmdbId, season, episode) {
@@ -381,7 +538,7 @@
             }
         }
 
-        console.log("Generated URL:", srcUrl); // Debug log
+        console.log("Generated URL:", srcUrl);
         playerFrame.src = srcUrl;
 
         // Apply sandbox attribute if isSandbox is true
@@ -413,70 +570,42 @@
         };
       }
 
-      // Event listener for source selection
-      dropdownContent.addEventListener("click", (e) => {
-        if (e.target.tagName === "A") {
-          currentSource = e.target.dataset.source;
-          selectedSource.textContent = e.target.textContent;
+      // Update source button display
+      function updateSourceButton(source) {
+        const sourceText = selectedSource.querySelector('span');
+        sourceText.textContent = source;
+      }
+
+      // Source dropdown toggle
+      selectedSource.addEventListener('click', (e) => {
+        e.stopPropagation();
+        sourceDropdown.classList.toggle('active');
+      });
+
+      // Source selection
+      document.querySelectorAll('.source-option').forEach(option => {
+        option.addEventListener('click', (e) => {
+          e.stopPropagation();
+          currentSource = option.dataset.source;
+          updateSourceButton(currentSource);
+
+          // Update active state
+          document.querySelectorAll('.source-option').forEach(opt => opt.classList.remove('active'));
+          option.classList.add('active');
+
+          sourceDropdown.classList.remove('active');
           console.log("Selected Source:", currentSource);
           updatePlayerFrame(tmdbId, currentSeason, currentEpisode);
-        }
+        });
       });
 
-      // Check URL parameters to determine if the selected item is a movie or TV show
-      if (imdbId) {
-        fetchMovieDetails(imdbId).then(() => {
-          if (mediaType === "movie") {
-            document.getElementById("episodes").style.display = "none";
-          } else if (mediaType === "tv") {
-            document.getElementById("episodes").style.display = "block";
-            const lastPlayed = getLastPlayed(tmdbId);
-            currentSeason = lastPlayed.season;
-            currentEpisode = lastPlayed.episode;
-            fetchEpisodes(tmdbId, currentSeason); // Fetch and display episodes for the stored season
-          }
-          // Ensure the player frame is updated with the correct last played episode
-          updatePlayerFrame(tmdbId, currentSeason, currentEpisode);
-        });
-      }
-
-      // Function to apply blocking logic to EZsource
-      function applyIframeBlocking(iframeDoc) {
-        iframeDoc.addEventListener("click", function(event) {
-          var target = event.target;
-
-          if (target.tagName === "A" && target.target === "_blank") {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-          }
-        });
-
-        var originalWindowOpen = iframeDoc.defaultView.open;
-        iframeDoc.defaultView.open = function(url, name, features) {
-          var newWindow = originalWindowOpen.call(this, url, name, features);
-          if (newWindow) {
-            newWindow.close();
-          }
-          return null;
-        };
-
-        iframeDoc.body.addEventListener('click', function(e) {
-          if (e.target.tagName === 'A' && e.target.target === '_blank') {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-          }
-        }, true);
-      }
-
-      // Add event listener for iframe load event
-      playerFrame.addEventListener("load", function() {
-        var iframeDoc = this.contentDocument || this.contentWindow.document;
-
-        if (currentSource === "EZsource") {
-          applyIframeBlocking(iframeDoc);
-        }
+      // Close dropdown when clicking outside
+      document.addEventListener('click', () => {
+        sourceDropdown.classList.remove('active');
       });
 
+      // Initialize
+      fetchMovieDetails(imdbId);
     </script>
   </body>
 </html>

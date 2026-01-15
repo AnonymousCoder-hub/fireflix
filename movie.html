@@ -1,115 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-
-<script type="text/javascript" data-cfasync="false">
-/*<![CDATA[/* */
-(function(){var b=window,n="fab280e2ca6fed377c48e81e9221a44c",d=[["siteId",780+176*417*347-20267182],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],e=["d3d3LmNkbjRhZHMuY29tL2lUelNFL3hhbGVydGlmeS5taW4uanM=","ZDNnNW92Zm5nanc5YncuY2xvdWRmcm9udC5uZXQvVEdpT00veFhaYVZiL2lwYXJzZS5taW4uY3Nz"],m=-1,h,p,j=function(){clearTimeout(p);m++;if(e[m]&&!(1773409244000<(new Date).getTime()&&1<m)){h=b.document.createElement("script");h.type="text/javascript";h.async=!0;var q=b.document.getElementsByTagName("script")[0];h.src="https://"+atob(e[m]);h.crossOrigin="anonymous";h.onerror=j;h.onload=function(){clearTimeout(p);b[n.slice(0,16)+n.slice(0,16)]||j()};p=setTimeout(j,5E3);q.parentNode.insertBefore(h,q)}};if(!b[n]){try{Object.freeze(b[n]=d)}catch(e){}j()}})();
-/*]]>/* */
-</script>
-
-
-  
-  
   <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0Q1VZ5TT2T"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-0Q1VZ5TT2T');
-    </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0Q1VZ5TT2T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-0Q1VZ5TT2T');
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Movie Details</title>
+  <title>Movie Details - FireFlix</title>
+  <link rel="icon" type="image/x-icon" href="logo.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="styles3.css">
 </head>
 <body>
-        
 
-  <header>
-    <nav>
-      <a href="index.html">Home</a>
+  <!-- Modern Header -->
+  <header class="modern-header">
+    <nav class="navbar">
+      <div class="nav-left">
+        <a href="index.html" class="logo">
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+          <span>FireFlix</span>
+        </a>
+      </div>
+      <div class="nav-right">
+        <a href="index.html" class="back-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Back
+        </a>
+      </div>
     </nav>
   </header>
 
   <main>
-    <div class="banner" id="banner">
+    <!-- Hero Banner -->
+    <div class="movie-banner" id="banner">
       <div class="banner-overlay"></div>
-      <div class="small-banner" id="small-banner"></div>
-    </div>
-    <div class="movie-details">
-      <div class="rating">
-        <img src="imdblogo.png" alt="IMDb Logo">
-        <span id="imdb-rating"></span>
-      </div>
-      <div class="genres-duration-container">
-        <div class="genres" id="genres"></div>
-        <span id="duration">
-          <img src="clock.png" alt="Clock Icon" id="clock-icon">
-          <span id="movie-duration"></span>
-          <span> • </span>
-          <span id="release-year" class="release-year"></span>
-        </span>
-      </div>
-      <p id="movie-description"></p>
-      <div class="buttons">
-        <button class="play-button" id="play-button">Play</button>
-        <button class="trailer-button" id="trailer-button">Trailer</button>
+      <div class="banner-content">
+        <div class="banner-left">
+          <div class="poster-wrapper" id="poster-wrapper">
+            <!-- Poster will be inserted here -->
+          </div>
+        </div>
+        <div class="banner-right">
+          <h1 class="movie-title" id="movie-title"></h1>
+
+          <div class="movie-meta">
+            <div class="rating-badge" id="rating-badge">
+              <img src="imdblogo.png" alt="IMDb">
+              <span id="imdb-rating"></span>
+            </div>
+
+            <div class="meta-tags">
+              <div class="genres-container" id="genres"></div>
+              <div class="duration-badge" id="duration">
+                <svg class="clock-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                </svg>
+                <span id="movie-duration"></span>
+                <span class="separator">•</span>
+                <span id="release-year" class="year-badge"></span>
+              </div>
+            </div>
+          </div>
+
+          <p class="movie-description" id="movie-description"></p>
+
+          <div class="action-buttons">
+            <button class="primary-btn play-button" id="play-button">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              Play Now
+            </button>
+            <button class="secondary-btn trailer-button" id="trailer-button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              Watch Trailer
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Actors Section -->
-    <section class="content-section" id="actors">
-      <h2 class="category-title" id="actors-title">
-        <span class="vertical-line"></span>Actors
-      </h2>
-      <div class="actors-carousel-wrapper">
-        <div class="carousel-control left" id="left-arrow">&#9664;</div>
-        <div class="actors-carousel" id="actors-carousel">
-          <div class="actors-grid" id="actors-grid"></div>
+    <section class="content-section actors-section" id="actors">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="title-icon">🎭</span>
+          Cast & Crew
+        </h2>
+        <div class="section-actions">
+          <button class="action-btn scroll-left" data-target="actors-grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="action-btn scroll-right" data-target="actors-grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
         </div>
-        <div class="carousel-control right" id="right-arrow">&#9654;</div>
+      </div>
+      <div class="content-scroller">
+        <div class="actors-grid modern-grid" id="actors-grid">
+          <!-- Actors will be inserted here -->
+        </div>
       </div>
     </section>
 
     <!-- Collection Section -->
     <section class="content-section" id="collection">
-      <h2 class="category-title" id="collection-title">
-        <span class="vertical-line"></span>Collection
-      </h2>
-      <div class="grid" id="collection-grid"></div>
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="title-icon">🎬</span>
+          Collection
+        </h2>
+      </div>
+      <div class="content-scroller">
+        <div class="grid modern-grid" id="collection-grid">
+          <!-- Collection items will be inserted here -->
+        </div>
+      </div>
     </section>
 
     <!-- Similar Movies/TV Shows Section -->
     <section class="content-section" id="similar">
-      <h2 class="category-title" id="similar-title">
-        <span class="vertical-line"></span>Similar Movies/TV Shows
-      </h2>
-      <div class="grid" id="similar-grid"></div>
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="title-icon">👍</span>
+          Similar Movies/TV Shows
+        </h2>
+        <div class="section-actions">
+          <button class="action-btn scroll-left" data-target="similar-grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="action-btn scroll-right" data-target="similar-grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="content-scroller">
+        <div class="grid modern-grid" id="similar-grid">
+          <!-- Similar items will be inserted here -->
+        </div>
+      </div>
     </section>
 
     <!-- On The Air Section -->
     <section class="content-section" id="on-the-air">
-      <h2 class="category-title" id="on-the-air-title">
-        <span class="vertical-line"></span>On The Air
-      </h2>
-      <div class="grid" id="on-the-air-grid"></div>
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="title-icon">📺</span>
+          On The Air
+        </h2>
+        <div class="section-actions">
+          <button class="action-btn scroll-left" data-target="on-the-air-grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="action-btn scroll-right" data-target="on-the-air-grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="content-scroller">
+        <div class="grid modern-grid" id="on-the-air-grid">
+          <!-- On the air items will be inserted here -->
+        </div>
+      </div>
     </section>
 
     <!-- Recommendations Section -->
     <section class="content-section" id="recommendations">
-      <h2 class="category-title" id="recommendations-title">
-        <span class="vertical-line"></span>Recommendations
-      </h2>
-      <div class="grid" id="recommendations-grid"></div>
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="title-icon">⭐</span>
+          Recommendations
+        </h2>
+        <div class="section-actions">
+          <button class="action-btn scroll-left" data-target="recommendations-grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="action-btn scroll-right" data-target="recommendations-grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="content-scroller">
+        <div class="grid modern-grid" id="recommendations-grid">
+          <!-- Recommendations will be inserted here -->
+        </div>
+      </div>
     </section>
   </main>
 
-  <footer>
-    <p>&copy; 2024 FireFlix. All rights reserved.</p>
+  <!-- Trailer Modal -->
+  <div class="modal-overlay" id="trailer-modal">
+    <div class="modal-content trailer-content">
+      <button class="modal-close" id="trailer-close">&times;</button>
+      <div id="trailer-player"></div>
+    </div>
+  </div>
+
+  <footer class="modern-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>FireFlix</h4>
+        <p>Stream your favorite movies and TV shows in HD quality.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 FireFlix. All rights reserved.</p>
+    </div>
   </footer>
 
   <script>
@@ -149,18 +278,27 @@
 
     function displayMovieDetails(movie, mediaType) {
       const banner = document.getElementById('banner');
+      const posterWrapper = document.getElementById('poster-wrapper');
+      const movieTitle = document.getElementById('movie-title');
       const imdbRating = document.getElementById('imdb-rating');
       const movieDescription = document.getElementById('movie-description');
-      const smallBanner = document.getElementById('small-banner');
       const genresContainer = document.getElementById('genres');
       const movieDuration = document.getElementById('movie-duration');
       const releaseYear = document.getElementById('release-year');
-      const clockIcon = document.getElementById('clock-icon');
 
       banner.style.backgroundImage = `url(https://image.tmdb.org/t/p/w1280${movie.backdrop_path || movie.poster_path})`;
-      imdbRating.textContent = movie.vote_average || 'N/A';
+      movieTitle.textContent = movie.title || movie.name;
+      imdbRating.textContent = (movie.vote_average / 2).toFixed(1);
       movieDescription.textContent = movie.overview;
 
+      // Poster
+      posterWrapper.innerHTML = `
+        <img src="https://image.tmdb.org/t/p/w500${movie.poster_path || movie.backdrop_path}"
+             alt="${movie.title || movie.name}"
+             class="poster-image">
+      `;
+
+      // Genres
       const knownGenres = [
         'Action', 'Adventure', 'Animation', 'Comedy', 'Crime', 'Documentary',
         'Drama', 'Family', 'Fantasy', 'History', 'Horror', 'Music', 'Mystery',
@@ -171,28 +309,20 @@
       const genres = movie.genres.map(genre => genre.name).filter(genre => knownGenres.includes(genre)).slice(0, 3);
       genres.forEach(genre => {
         const genreDiv = document.createElement('div');
-        genreDiv.className = 'genre';
+        genreDiv.className = 'genre-tag';
         genreDiv.textContent = genre;
         genresContainer.appendChild(genreDiv);
       });
 
-      smallBanner.style.backgroundImage = `url(https://image.tmdb.org/t/p/w500${movie.poster_path || movie.backdrop_path})`;
-
-      // Add the duration and release year
+      // Duration and Year
       if (mediaType === 'movie' && movie.runtime) {
-        clockIcon.style.display = 'inline';
         const hours = Math.floor(movie.runtime / 60);
         const minutes = movie.runtime % 60;
-        movieDuration.textContent = hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
+        movieDuration.querySelector('span').textContent = hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
         releaseYear.textContent = movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A';
       } else if (mediaType === 'tv' && movie.number_of_episodes) {
-        clockIcon.style.display = 'none';
-        movieDuration.textContent = `${movie.number_of_episodes} episodes`;
+        movieDuration.querySelector('span').textContent = `${movie.number_of_episodes} episodes`;
         releaseYear.textContent = movie.first_air_date ? new Date(movie.first_air_date).getFullYear() : 'N/A';
-      } else {
-        clockIcon.style.display = 'none';
-        movieDuration.textContent = 'N/A';
-        releaseYear.textContent = 'N/A';
       }
     }
 
@@ -221,7 +351,7 @@
         const img = document.createElement('img');
         img.src = `https://image.tmdb.org/t/p/w500${part.poster_path || part.backdrop_path}`;
         img.alt = part.title || part.name;
-                div.appendChild(img);
+        div.appendChild(img);
 
         div.addEventListener('click', async () => {
           const imdbId = await fetchIMDbID(part.id, part.media_type || 'movie');
@@ -269,24 +399,6 @@
 
         div.addEventListener('click', () => {
           window.location.href = `actors.html?actor_id=${actor.id}`;
-        });
-      });
-
-      const carousel = document.getElementById('actors-carousel');
-      const leftArrow = document.getElementById('left-arrow');
-      const rightArrow = document.getElementById('right-arrow');
-
-      leftArrow.addEventListener('click', () => {
-        carousel.scrollBy({
-          left: -200,
-          behavior: 'smooth'
-        });
-      });
-
-      rightArrow.addEventListener('click', () => {
-        carousel.scrollBy({
-          left: 200,
-          behavior: 'smooth'
         });
       });
     }
@@ -357,11 +469,8 @@
       window.location.href = `player.html?imdb_id=${imdbId}`;
     });
 
-    // Function to save the TMDb ID to local storage
     function saveToContinueWatching(imdbId) {
       let continueWatching = JSON.parse(localStorage.getItem('continueWatching')) || [];
-
-      // Add the new TMDb ID to the list if it's not already there
       if (!continueWatching.includes(imdbId)) {
           continueWatching.push(imdbId);
           localStorage.setItem('continueWatching', JSON.stringify(continueWatching));
@@ -372,10 +481,6 @@
       const trailerUrl = await fetchTrailerUrl(imdbId);
       if (trailerUrl) {
         playTrailer(trailerUrl);
-      }
-
-      if (window.innerWidth <= 768) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
 
@@ -407,20 +512,35 @@
     }
 
     function playTrailer(trailerUrl) {
-      const banner = document.getElementById('banner');
-      const smallBanner = document.getElementById('small-banner');
+      const modal = document.getElementById('trailer-modal');
+      const player = document.getElementById('trailer-player');
+      player.innerHTML = `
+        <iframe src="${trailerUrl}"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+        </iframe>
+      `;
+      modal.classList.add('active');
+    }
 
-      smallBanner.classList.add('small-banner-down');
-      if (window.innerWidth > 768) {
-        banner.style.height = '80vh';
+    document.getElementById('trailer-close').addEventListener('click', () => {
+      const modal = document.getElementById('trailer-modal');
+      const player = document.getElementById('trailer-player');
+      player.innerHTML = '';
+      modal.classList.remove('active');
+    });
+
+    document.getElementById('trailer-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'trailer-modal') {
+        const player = document.getElementById('trailer-player');
+        player.innerHTML = '';
+        e.target.classList.remove('active');
       }
+    });
 
-      banner.innerHTML = `<iframe width="100%" height="100%" src="${trailerUrl}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-    }
-
-    if (imdbId) {
-      fetchMovieDetails(imdbId);
-    }
+    // Initialize
+    fetchMovieDetails(imdbId);
   </script>
 </body>
 </html>

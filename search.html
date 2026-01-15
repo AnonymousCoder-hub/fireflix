@@ -1,98 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0Q1VZ5TT2T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-0Q1VZ5TT2T');
+  </script>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0Q1VZ5TT2T"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-0Q1VZ5TT2T');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Results</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="styles2.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Results - FireFlix</title>
+  <link rel="icon" type="image/x-icon" href="logo.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles2.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="index.html">Home</a>
-        </nav>
-    </header>
-    
-    <main>
-        <h1>Search Results</h1>
-        <div class="underline"></div>
-        <div id="search-results-container" class="search-results-grid"></div>
-    </main>
-    
-    <footer>
-        <p>&copy; 2024 FireFlix. All rights reserved.</p>
-    </footer>
 
-    <script>
-        const apiKey = '7967738a03ec215c7d6d675faba9c973';
-        const searchResultsContainer = document.getElementById('search-results-container');
+  <!-- Modern Header -->
+  <header class="modern-header">
+    <nav class="navbar">
+      <div class="nav-left">
+        <a href="index.html" class="logo">
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+          <span>FireFlix</span>
+        </a>
+      </div>
+      <div class="nav-right">
+        <a href="index.html" class="back-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Home
+        </a>
+      </div>
+    </nav>
+  </header>
 
-        async function fetchAndDisplaySearchResults(query) {
-            try {
-                const response = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${query}`);
-                const data = await response.json();
-                if (data.results.length) {
-                    displaySearchResults(data.results, searchResultsContainer);
-                } else {
-                    console.error("No search results available.");
-                }
-            } catch (error) {
-                console.error("Error fetching search results: ", error);
-            }
+  <main class="search-main">
+    <div class="search-hero">
+      <div class="search-hero-content">
+        <div class="search-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </div>
+        <h1 class="search-title">Search Results</h1>
+        <p class="search-query" id="search-query"></p>
+      </div>
+    </div>
+
+    <div class="search-results-wrapper">
+      <div id="search-results-container" class="search-results-grid">
+        <!-- Results will be inserted here -->
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="modern-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>FireFlix</h4>
+        <p>Stream your favorite movies and TV shows in HD quality.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 FireFlix. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const apiKey = '7967738a03ec215c7d6d675faba9c973';
+    const searchResultsContainer = document.getElementById('search-results-container');
+    const searchQueryEl = document.getElementById('search-query');
+
+    async function fetchAndDisplaySearchResults(query) {
+      try {
+        const response = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${query}`);
+        const data = await response.json();
+        if (data.results.length) {
+          displaySearchResults(data.results, searchResultsContainer);
+          searchQueryEl.textContent = `Showing results for "${query}"`;
+        } else {
+          searchResultsContainer.innerHTML = `
+            <div class="no-results">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <line x1="8" y1="11" x2="14" y2="11"></line>
+              </svg>
+              <h3>No Results Found</h3>
+              <p>Try searching with different keywords</p>
+            </div>
+          `;
+          searchQueryEl.textContent = `No results for "${query}"`;
+        }
+      } catch (error) {
+        console.error("Error fetching search results: ", error);
+        searchResultsContainer.innerHTML = `
+          <div class="error-message">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <h3>Error Loading Results</h3>
+            <p>Please try again later</p>
+          </div>
+        `;
+      }
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get('query');
+    if (query) {
+      fetchAndDisplaySearchResults(query);
+    }
+
+    function displaySearchResults(items, container) {
+      container.innerHTML = '';
+      items.forEach(item => {
+        if (!item.poster_path && !item.backdrop_path) return;
+
+        const div = document.createElement('div');
+        div.classList.add('search-result-item');
+
+        const img = document.createElement('img');
+        img.src = `https://image.tmdb.org/t/p/w500${item.poster_path || item.backdrop_path}`;
+        img.alt = item.title || item.name;
+
+        const info = document.createElement('div');
+        info.classList.add('result-info');
+
+        const title = document.createElement('h3');
+        title.textContent = item.title || item.name;
+
+        const meta = document.createElement('div');
+        meta.classList.add('result-meta');
+
+        const type = item.media_type || (item.first_air_date ? 'TV Show' : 'Movie');
+        const year = (item.release_date || item.first_air_date || '').split('-')[0];
+
+        meta.innerHTML = `
+          <span class="type-badge">${type}</span>
+          ${year ? `<span class="year">${year}</span>` : ''}
+        `;
+
+        const rating = document.createElement('div');
+        rating.classList.add('result-rating');
+        if (item.vote_average) {
+          const stars = Math.round(item.vote_average / 2);
+          rating.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            <span>${item.vote_average.toFixed(1)}</span>
+          `;
         }
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const query = urlParams.get('query');
-        if (query) {
-            fetchAndDisplaySearchResults(query);
+        info.appendChild(title);
+        info.appendChild(meta);
+        if (rating.innerHTML) {
+          info.appendChild(rating);
         }
 
-        function displaySearchResults(items, container) {
-            container.innerHTML = '';
-            items.forEach(item => {
-                if (!item.poster_path && !item.backdrop_path) return; // Skip items without images
+        div.appendChild(img);
+        div.appendChild(info);
 
-                const div = document.createElement('div');
-                div.classList.add('search-result-item');
+        const typeParam = item.media_type || (item.first_air_date ? 'tv' : 'movie');
+        div.addEventListener('click', async () => {
+          const imdbId = await fetchIMDbID(item.id, typeParam);
+          if (imdbId) {
+            window.location.href = `movie.html?imdb_id=${imdbId}`;
+          }
+        });
 
-                const img = document.createElement('img');
-                img.src = `https://image.tmdb.org/t/p/w500${item.poster_path || item.backdrop_path}`;
-                img.alt = item.title || item.name;
+        container.appendChild(div);
+      });
+    }
 
-                const title = document.createElement('h3');
-                title.textContent = item.title || item.name;
-
-                div.appendChild(img);
-                div.appendChild(title);
-                container.appendChild(div);
-
-                const type = item.media_type || (item.first_air_date ? 'tv' : 'movie');
-                div.addEventListener('click', async () => {
-                    const imdbId = await fetchIMDbID(item.id, type);
-                    window.location.href = `movie.html?imdb_id=${imdbId}`;
-                });
-            });
-        }
-
-        async function fetchIMDbID(tmdbId, type) {
-            try {
-                const response = await fetch(`https://api.themoviedb.org/3/${type}/${tmdbId}/external_ids?api_key=${apiKey}`);
-                const data = await response.json();
-                return data.imdb_id;
-            } catch (error) {
-                console.error(`Error fetching IMDb ID for ${type} with TMDB ID ${tmdbId}: `, error);
-            }
-        }
-    </script>
+    async function fetchIMDbID(tmdbId, type) {
+      try {
+        const response = await fetch(`https://api.themoviedb.org/3/${type}/${tmdbId}/external_ids?api_key=${apiKey}`);
+        const data = await response.json();
+        return data.imdb_id;
+      } catch (error) {
+        console.error(`Error fetching IMDb ID for ${type} with TMDB ID ${tmdbId}: `, error);
+      }
+    }
+  </script>
 </body>
 </html>
